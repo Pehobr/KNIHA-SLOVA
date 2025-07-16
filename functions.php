@@ -146,6 +146,8 @@ function knihaslova_get_story_data($story_id) {
         return null;
     }
 
+    delete_transient('knihaslova_story_' . $story_id);
+
     $transient_key = 'knihaslova_story_' . $story_id;
     $cached_data = get_transient($transient_key);
 
