@@ -1,7 +1,71 @@
-/* Styly pro detail příběhu */
+/* ==========================================================================
+   Finální styly pro detail příběhu - Kniha Slova
+   ========================================================================== */
+
+/* === KLÍČOVÁ ÚPRAVA: Roztažení hlavního kontejneru na PC a tabletu === */
+@media (min-width: 768px) {
+    .single-evangelijni_pribeh .content-container.site-container {
+        max-width: 100%;
+    }
+}
+
+/* === Základní layout a odsazení === */
+
+/* Zmenšení mezery NAD hlavním nadpisem na PC */
+@media (min-width: 1025px) {
+    .single-evangelijni_pribeh .content-area {
+        margin-top: 2rem !important;
+    }
+}
+
+/* Odsazení celého obsahu od bočních okrajů */
+.story-detail {
+    padding-left: 7px;
+    padding-right: 7px;
+}
+
+
+/* === Kontejner pro nadpis a tlačítko "Zpět" === */
+
+.page-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    gap: 20px;
+}
+
+/* Nadpis stránky - vycentrování */
+.page-header-container .page-title {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+}
+
+/* Tlačítko "Zpět na všechny příběhy" */
+.page-header-container .button-link-archive {
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: #514332;
+    color: #f5f2eb;
+    border: 1px solid #b7a99a;
+    border-radius: 5px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.page-header-container .button-link-archive:hover {
+    background-color: #b7a99a;
+    color: #3e2f1c;
+}
+
+
+/* === Přepínač záložek (tabů) === */
+
 .story-detail .view-switcher,
 .story-detail .evangelist-switcher {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     border-bottom: 1px solid #ddd;
     padding-bottom: 10px;
     display: flex;
@@ -9,46 +73,50 @@
     gap: 5px;
 }
 
-/* Styl pro neaktivní záložku */
+/* Vzhled neaktivní záložky */
 .story-detail .nav-tab {
+    padding: 10px 15px;
     border: 1px solid transparent;
     cursor: pointer;
-    background-color: #b7a99a; /* Vaše nová barva pro neaktivní záložky */
-    color: #ffffff; /* Bílý text pro lepší čitelnost */
+    background-color: #b7a99a;
+    color: #ffffff;
     margin-right: 0;
     border-radius: 5px 5px 0 0;
-    opacity: 0.8; /* Lehké zprůhlednění pro neaktivní záložky */
+    opacity: 0.8;
 }
 
-/* Styl pro aktivní záložku, na kterou uživatel kliknul */
+/* Vzhled aktivní záložky */
 .story-detail .nav-tab.active {
-    background-color: white; /* Aktivní záložka bude bílá, aby ladila s obsahem */
-    color: #333333; /* Tmavý text na bílém podkladu */
-    font-weight: bold;
     border-color: #ddd;
     border-bottom-color: white;
-    opacity: 1; /* Plná viditelnost */
+    background-color: white;
+    font-weight: bold;
+    color: #333333;
+    opacity: 1;
 }
+
+
+/* === Mřížka pro porovnání === */
 
 .tab-content,
 .evangelist-translation-content {
-    display: none; /* Ve výchozím stavu jsou všechny obsahy skryté */
+    display: none;
 }
 
 .tab-content.active,
 .evangelist-translation-content.active {
-    display: block; /* Zobrazí se pouze obsah s třídou .active */
+    display: block;
 }
 
 .comparison-grid {
     display: flex;
-    flex-wrap: wrap; /* Umožní zalamování na menších obrazovkách */
-    gap: 20px; /* Mezera mezi sloupci */
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
 .grid-column {
-    flex: 1; /* Sloupce se rovnoměrně roztáhnou */
-    min-width: 250px; /* Minimální šířka sloupce */
+    flex: 1;
+    min-width: 250px;
     border: 1px solid #eee;
     padding: 15px;
     border-radius: 5px;
@@ -65,42 +133,27 @@
     font-style: italic;
 }
 
-/* Odsazení hlavního obsahu od bočních okrajů */
-.story-detail {
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
 .evangelist-translation-content h4 {
     margin-top: 0;
 }
 
-/* Vycentrování hlavního nadpisu stránky s příběhem */
-.story-detail .page-header {
-    text-align: center;
-}
 
-/* Vycentrování záložek na mobilním zobrazení */
+/* === MOBILNÍ ZOBRAZENÍ (šířka 767px a méně) === */
+
 @media (max-width: 767px) {
+    /* Skryjeme tlačítko "Zpět" */
+    .page-header-container .back-to-archive-link {
+        display: none;
+    }
+
+    /* Zajistíme, že nadpis zůstane na středu */
+    .page-header-container {
+        justify-content: center;
+    }
+    
+    /* Vycentrování záložek na mobilu */
     .story-detail .view-switcher {
         justify-content: center;
     }
 }
 
-/* === Redukce vertikálních mezer na PC === */
-
-/* 1. Zmenšení mezery NAD hlavním nadpisem (např. "Prolog") */
-.single-evangelijni_pribeh .content-area {
-    margin-top: 1.5rem !important;
-}
-
-/* 2. Zmenšení mezery POD hlavním nadpisem */
-.story-detail .page-header {
-    padding-bottom: 20px;
-    margin-bottom: 0;
-}
-
-/* 3. Zmenšení mezery POD záložkami */
-.story-detail .view-switcher {
-    margin-bottom: 15px;
-}

@@ -1,37 +1,68 @@
-.entry-hero-container-inner {
-    background: #3e2f1c;
+/* ==========================================================================
+   Finální styly pro archiv příběhů - Kniha Slova
+   ========================================================================== */
+
+/* === Hlavní layout a pozadí === */
+
+.post-type-archive-evangelijni_pribeh .entry-hero,
+.post-type-archive-evangelijni_pribeh .content-container.site-container {
+    background: transparent !important;
 }
 
-.post-type-archive-evangelijni_pribeh .entry.loop-entry {
-    background-color: #514332 !important; /* <<< TUTO HODNOTU JSEM ZMĚNIL */
-    border: 2px solid rgba(255, 255, 255, 0.4) !important;
-    border-radius: 8px !important;
-    box-shadow: none !important;
-    transition: border-color 0.3s ease !important;
-}
-
-/* Snížení horní mezery u nadpisu archivu */
 .post-type-archive-evangelijni_pribeh .entry-hero .entry-header {
     min-height: 10px !important;
     padding-top: 2rem !important;
     padding-bottom: 2rem !important;
 }
 
-/* Změna barvy ohraničení při najetí myší */
-.post-type-archive-evangelijni_pribeh .entry.loop-entry:hover {
-    border-color: rgba(255, 255, 255, 0.8);
+/* === Skrytí postranního panelu a roztažení obsahu === */
+
+/* Skryjeme samotný postranní panel */
+.post-type-archive-evangelijni_pribeh #secondary {
+    display: none !important;
 }
 
-/* Změna barvy nadpisu příběhu ("Jan Křtitel") */
+/* Nastavíme layout na jeden sloupec, aby se obsah roztáhl */
+.post-type-archive-evangelijni_pribeh .content-container {
+    grid-template-columns: 1fr !important;
+}
+
+
+/* === Styly pro boxy s příběhy === */
+
+.post-type-archive-evangelijni_pribeh .entry.loop-entry {
+    background-color: #514332 !important;
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    transition: border-color 0.3s ease !important;
+}
+
+.post-type-archive-evangelijni_pribeh .entry.loop-entry:hover {
+    border-color: rgba(255, 255, 255, 0.8) !important;
+}
+
 .post-type-archive-evangelijni_pribeh .entry.loop-entry .entry-title,
 .post-type-archive-evangelijni_pribeh .entry.loop-entry .entry-title a {
-    color: #FFFFFF; /* Bílý nadpis */
+    color: #FFFFFF !important;
 }
 
-/* Změna barvy odkazu "Přečtěte si více" */
 .post-type-archive-evangelijni_pribeh .entry.loop-entry .entry-read-more-wrap a {
-    color: #F0E68C; /* Světle zlatá barva pro odkaz */
+    color: #F0E68C !important;
     font-weight: bold;
     text-transform: uppercase;
     font-size: 0.8em;
+}
+
+/* === MOBILNÍ ZOBRAZENÍ (šířka 767px a méně) === */
+@media (max-width: 767px) {
+    /* Skrytí bočního menu na mobilních zařízeních */
+    .post-type-archive-evangelijni_pribeh #secondary {
+        display: none !important;
+    }
+
+    /* Roztažení obsahu na celou šířku, když je boční menu skryté */
+    .post-type-archive-evangelijni_pribeh .content-container {
+        grid-template-columns: 1fr !important;
+    }
 }
