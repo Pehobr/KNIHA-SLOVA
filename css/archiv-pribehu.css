@@ -2,15 +2,12 @@
     background: #3e2f1c;
 }
 
-/*
- * Vzhled pro boxy s příběhy na archivní stránce
- */
 .post-type-archive-evangelijni_pribeh .entry.loop-entry {
-    background-color: #3e2f1c;
-    border: 2px solid rgba(255, 255, 255, 0.4); /* Světlé poloprůhledné ohraničení */
-    border-radius: 8px; /* Volitelné: Lehce zaoblené rohy */
-    box-shadow: none; /* Odstranění původního stínu, který by rušil */
-    transition: border-color 0.3s ease; /* Plynulá změna barvy ohraničení při najetí */
+    background-color: #514332 !important; /* <<< TUTO HODNOTU JSEM ZMĚNIL */
+    border: 2px solid rgba(255, 255, 255, 0.4) !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    transition: border-color 0.3s ease !important;
 }
 
 /* Změna barvy ohraničení při najetí myší */

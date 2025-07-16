@@ -6,7 +6,7 @@ get_header(); // Načte hlavičku šablony
     <main id="main" class="site-main">
         <div class="container">
             <header class="page-header">
-                <h1 class="page-title">Evangelijní příběhy</h1>
+                <h1 class="page-title">Příběhy z evangelií</h1>
             </header>
 
             <div class="story-list">
@@ -21,7 +21,7 @@ get_header(); // Načte hlavičku šablony
                         <?php endwhile; ?>
                     </ul>
                 <?php else : ?>
-                    <p>Zatím nebyly vloženy žádné příběhy.</p>
+                    <p>Zatím nebyly vloženy žádné texty.</p>
                 <?php endif; ?>
             </div>
         </div>
