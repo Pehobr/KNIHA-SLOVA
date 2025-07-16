@@ -1,1 +1,2 @@
 Toto jsou kody pro web Kniha Slova - https://knihaslova.pehonet.eu
+REPOZITÁŘ PŘEJMENOVÁN NA KNIHA-SLOVA
