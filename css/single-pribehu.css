@@ -11,7 +11,6 @@
 
 /* Styl pro neaktivní záložku */
 .story-detail .nav-tab {
-    padding: 10px 15px;
     border: 1px solid transparent;
     cursor: pointer;
     background-color: #b7a99a; /* Vaše nová barva pro neaktivní záložky */
@@ -68,8 +67,8 @@
 
 /* Odsazení hlavního obsahu od bočních okrajů */
 .story-detail {
-    padding-left: 40px;
-    padding-right: 40px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .evangelist-translation-content h4 {
