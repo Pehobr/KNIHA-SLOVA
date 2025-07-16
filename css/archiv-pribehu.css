@@ -2,7 +2,7 @@
    Finální styly pro archiv příběhů - Kniha Slova
    ========================================================================== */
 
-/* === Hlavní layout a pozadí === */
+/* === Vzhled horního pruhu (Hero sekce) === */
 
 .post-type-archive-evangelijni_pribeh .entry-hero,
 .post-type-archive-evangelijni_pribeh .content-container.site-container {
@@ -13,18 +13,6 @@
     min-height: 10px !important;
     padding-top: 2rem !important;
     padding-bottom: 2rem !important;
-}
-
-/* === Skrytí postranního panelu a roztažení obsahu === */
-
-/* Skryjeme samotný postranní panel */
-.post-type-archive-evangelijni_pribeh #secondary {
-    display: none !important;
-}
-
-/* Nastavíme layout na jeden sloupec, aby se obsah roztáhl */
-.post-type-archive-evangelijni_pribeh .content-container {
-    grid-template-columns: 1fr !important;
 }
 
 
@@ -54,15 +42,16 @@
     font-size: 0.8em;
 }
 
+
 /* === MOBILNÍ ZOBRAZENÍ (šířka 767px a méně) === */
 @media (max-width: 767px) {
     /* Skrytí bočního menu na mobilních zařízeních */
     .post-type-archive-evangelijni_pribeh #secondary {
-        display: none !important;
+        display: none;
     }
 
     /* Roztažení obsahu na celou šířku, když je boční menu skryté */
     .post-type-archive-evangelijni_pribeh .content-container {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: 1fr;
     }
 }
