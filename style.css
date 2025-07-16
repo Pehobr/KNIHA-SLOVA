@@ -30,7 +30,3 @@ Updated: 2025-07-16 07:01:17
     transition: transform .3s cubic-bezier(.77,.2,.05,1), opacity .25s cubic-bezier(.77,.2,.05,1);
 }
 
-/* Skrytí postranního panelu (sidebaru) na celém webu */
-#secondary {
-    display: none;
-}
