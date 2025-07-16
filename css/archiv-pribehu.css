@@ -1,8 +1,12 @@
+.entry-hero-container-inner {
+    background: #3e2f1c;
+}
+
 /*
  * Vzhled pro boxy s příběhy na archivní stránce
  */
 .post-type-archive-evangelijni_pribeh .entry.loop-entry {
-    background-color: rgb(109, 75, 64);
+    background-color: #3e2f1c;
     border: 2px solid rgba(255, 255, 255, 0.4); /* Světlé poloprůhledné ohraničení */
     border-radius: 8px; /* Volitelné: Lehce zaoblené rohy */
     box-shadow: none; /* Odstranění původního stínu, který by rušil */

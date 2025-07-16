@@ -9,20 +9,26 @@
     gap: 5px;
 }
 
+/* Styl pro neaktivní záložku */
 .story-detail .nav-tab {
     padding: 10px 15px;
     border: 1px solid transparent;
     cursor: pointer;
-    background-color: #f1f1f1;
+    background-color: #b7a99a; /* Vaše nová barva pro neaktivní záložky */
+    color: #ffffff; /* Bílý text pro lepší čitelnost */
     margin-right: 0;
     border-radius: 5px 5px 0 0;
+    opacity: 0.8; /* Lehké zprůhlednění pro neaktivní záložky */
 }
 
+/* Styl pro aktivní záložku, na kterou uživatel kliknul */
 .story-detail .nav-tab.active {
+    background-color: white; /* Aktivní záložka bude bílá, aby ladila s obsahem */
+    color: #333333; /* Tmavý text na bílém podkladu */
+    font-weight: bold;
     border-color: #ddd;
     border-bottom-color: white;
-    background-color: white;
-    font-weight: bold;
+    opacity: 1; /* Plná viditelnost */
 }
 
 .tab-content,

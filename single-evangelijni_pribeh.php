@@ -13,6 +13,11 @@ if ($story_data) {
 } else {
     error_log('Kniha Slova Debug (Template): Pro slug "' . $post_slug . '" nebyla do šablony předána žádná data.');
 }
+
+// <<< NOVÁ ČÁST: NAČTENÍ JAZYKOVÉHO ROZBORU (UPRAVENO) >>>
+$analysis_slug = $post_slug . '-jazyk'; // Změna z '-rozbor' na '-jazyk'
+$analysis_page = get_page_by_path($analysis_slug, OBJECT, 'page');
+// <<< KONEC NOVÉ ČÁSTI >>>
 ?>
 
 <div id="primary" class="content-area">
@@ -27,6 +32,9 @@ if ($story_data) {
                 <div class="view-switcher">
                     <button class="nav-tab active" data-target="evangelists-view">Srovnání evangelistů</button>
                     <button class="nav-tab" data-target="translations-view">Srovnání překladů</button>
+                    <?php if ($analysis_page): // Zobrazit záložku jen pokud existuje stránka s rozborem ?>
+                        <button class="nav-tab" data-target="analysis-view">Jazykový rozbor</button>
+                    <?php endif; ?>
                 </div>
 
                 <div id="evangelists-view" class="tab-content active">
@@ -44,6 +52,18 @@ if ($story_data) {
                     get_template_part('template-parts/content-translations');
                     ?>
                 </div>
+
+                <?php if ($analysis_page): // Zobrazit obsah jen pokud existuje stránka s rozborem ?>
+                <div id="analysis-view" class="tab-content">
+                    <div class="analysis-content" style="padding-top: 20px;">
+                        <?php
+                        // Aplikujeme filtry, aby se správně zobrazily např. shortcody nebo oembed videa
+                        echo apply_filters('the_content', $analysis_page->post_content);
+                        ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+
 
             <?php else: ?>
                 <header class="page-header">

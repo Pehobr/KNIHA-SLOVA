@@ -25,9 +25,13 @@ do_action( 'kadence_after_content' );
 	 * Kadence footer hook.
 	 *
 	 * @hooked Kadence/footer_markup - 10
-	 */
-	do_action( 'kadence_footer' );
+	*/
 
+/**
+ * KOD ZOBRAZÍ TOTO ZÁPATÍ © 2025 KNIHA SLOVA - Šablona pro WordPress od Kadence WP
+ * do_action( 'kadence_footer' );
+ */
+	
 	do_action( 'kadence_after_footer' );
 	?>
 </div><!-- #wrapper -->
