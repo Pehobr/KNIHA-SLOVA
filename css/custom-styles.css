@@ -1,0 +1,53 @@
+/* Styly pro detail příběhu */
+.story-detail .view-switcher {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.story-detail .nav-tab {
+    padding: 10px 15px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    background-color: #f1f1f1;
+    margin-right: 5px;
+}
+
+.story-detail .nav-tab.active {
+    border-color: #ddd;
+    border-bottom-color: white;
+    background-color: white;
+    font-weight: bold;
+}
+
+.tab-content {
+    display: none; /* Ve výchozím stavu jsou všechny obsahy skryté */
+}
+
+.tab-content.active {
+    display: block; /* Zobrazí se pouze obsah s třídou .active */
+}
+
+.comparison-grid {
+    display: flex;
+    flex-wrap: wrap; /* Umožní zalamování na menších obrazovkách */
+    gap: 20px; /* Mezera mezi sloupci */
+}
+
+.grid-column {
+    flex: 1; /* Sloupce se rovnoměrně roztáhnou */
+    min-width: 250px; /* Minimální šířka sloupce */
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+.grid-column h3 {
+    margin-top: 0;
+}
+
+.grid-column .citation {
+    font-size: 0.9em;
+    color: #555;
+    font-style: italic;
+}
