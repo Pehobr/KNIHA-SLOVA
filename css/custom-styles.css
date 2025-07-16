@@ -57,3 +57,33 @@
     padding-left: 40px;
     padding-right: 40px;
 }
+
+/*
+ * Vzhled pro boxy s příběhy na archivní stránce
+ */
+.post-type-archive-evangelijni_pribeh .entry.loop-entry {
+    background-color: rgb(109, 75, 64);
+    border: 2px solid rgba(255, 255, 255, 0.4); /* Světlé poloprůhledné ohraničení */
+    border-radius: 8px; /* Volitelné: Lehce zaoblené rohy */
+    box-shadow: none; /* Odstranění původního stínu, který by rušil */
+    transition: border-color 0.3s ease; /* Plynulá změna barvy ohraničení při najetí */
+}
+
+/* Změna barvy ohraničení při najetí myší */
+.post-type-archive-evangelijni_pribeh .entry.loop-entry:hover {
+    border-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Změna barvy nadpisu příběhu ("Jan Křtitel") */
+.post-type-archive-evangelijni_pribeh .entry.loop-entry .entry-title,
+.post-type-archive-evangelijni_pribeh .entry.loop-entry .entry-title a {
+    color: #FFFFFF; /* Bílý nadpis */
+}
+
+/* Změna barvy odkazu "Přečtěte si více" */
+.post-type-archive-evangelijni_pribeh .entry.loop-entry .entry-read-more-wrap a {
+    color: #F0E68C; /* Světle zlatá barva pro odkaz */
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.8em;
+}

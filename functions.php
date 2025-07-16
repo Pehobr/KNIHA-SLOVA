@@ -138,6 +138,7 @@ function get_data_from_google_sheet($sheet_url) {
 
 /**
  * Získá všechny potřebné texty a citace pro daný příběh.
+ * Upraveno o možnost vynuceného mazání transientů z administrace.
  * @param string $story_id Unikátní ID příběhu (např. 'jan-krtitel').
  * @return array|null Komplexní pole s daty pro daný příběh nebo null.
  */
@@ -146,9 +147,18 @@ function knihaslova_get_story_data($story_id) {
         return null;
     }
 
-    delete_transient('knihaslova_story_' . $story_id);
+    // Získáme nastavení z administrace
+    $dev_options = get_option('knihaslova_dev_options');
+    $force_clear = isset($dev_options['force_clear_transients']) && $dev_options['force_clear_transients'] === 'on';
 
     $transient_key = 'knihaslova_story_' . $story_id;
+
+    // Pokud je volba aktivní, smažeme transient
+    if ($force_clear) {
+        delete_transient($transient_key);
+        error_log('Kniha Slova Debug: Transient pro "' . $story_id . '" byl smazán na základě nastavení v administraci.');
+    }
+
     $cached_data = get_transient($transient_key);
 
     if (false !== $cached_data) {
@@ -191,7 +201,111 @@ function knihaslova_get_story_data($story_id) {
         ]
     ];
 
-    set_transient($transient_key, $final_data, 3600);
+    set_transient($transient_key, $final_data, 3600); // Cache na 1 hodinu
 
     return $final_data;
 }
+
+//======================================================================
+// 5. VÝVOJÁŘSKÁ SEKCE PRO SPRÁVU WEBU
+//======================================================================
+
+/**
+ * Přidá do administrace novou položku hlavního menu "Admin".
+ */
+function knihaslova_add_admin_menu() {
+    add_menu_page(
+        'Admin Nastavení', // Název stránky (title)
+        'Admin',           // Text v menu
+        'manage_options',  // Oprávnění pro zobrazení
+        'kniha_slova_admin', // Slug stránky
+        'knihaslova_admin_page_html', // Funkce pro vykreslení obsahu
+        'dashicons-admin-generic', // Ikona
+        2 // Pozice v menu
+    );
+}
+add_action('admin_menu', 'knihaslova_add_admin_menu');
+
+/**
+ * Vykreslí obsah stránky "Admin".
+ */
+function knihaslova_admin_page_html() {
+    // Zkontroluje, zda má uživatel oprávnění
+    if (!current_user_can('manage_options')) {
+        return;
+    }
+    ?>
+    <div class="wrap">
+        <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+        <form action="options.php" method="post">
+            <?php
+            // Skrytá pole pro bezpečnost a funkčnost WordPressu
+            settings_fields('knihaslova_admin_settings');
+            // Vykreslí všechny sekce a pole přidaná k této stránce
+            do_settings_sections('kniha_slova_admin');
+            // Tlačítko pro uložení
+            submit_button('Uložit nastavení');
+            ?>
+        </form>
+    </div>
+    <?php
+}
+
+/**
+ * Registruje nastavení, sekce a pole.
+ */
+function knihaslova_settings_init() {
+    // Registruje skupinu nastavení
+    register_setting('knihaslova_admin_settings', 'knihaslova_dev_options');
+
+    // Přidá sekci pro nastavení
+    add_settings_section(
+        'knihaslova_dev_section', // ID sekce
+        'Vývojářské nástroje',    // Nadpis sekce
+        'knihaslova_dev_section_cb', // Callback pro popis sekce (může být prázdný)
+        'kniha_slova_admin'      // Slug stránky, kde se má sekce zobrazit
+    );
+
+    // Přidá pole pro zapnutí/vypnutí mazání cache
+    add_settings_field(
+        'force_clear_transients', // ID pole
+        'Vynutit smazání cache',   // Popisek pole
+        'knihaslova_force_clear_transients_cb', // Callback pro vykreslení pole
+        'kniha_slova_admin',      // Slug stránky
+        'knihaslova_dev_section'  // ID sekce, do které patří
+    );
+}
+add_action('admin_init', 'knihaslova_settings_init');
+
+/**
+ * Popis sekce (nepovinné).
+ */
+function knihaslova_dev_section_cb($args) {
+    ?>
+    <p id="<?php echo esc_attr($args['id']); ?>">Zde můžete spravovat pokročilé funkce webu.</p>
+    <?php
+}
+
+/**
+ * Vykreslí checkbox pro volbu mazání transientů.
+ */
+function knihaslova_force_clear_transients_cb() {
+    // Získá uložené hodnoty
+    $options = get_option('knihaslova_dev_options');
+    $checked = isset($options['force_clear_transients']) ? $options['force_clear_transients'] : 'off';
+    ?>
+    <label for="force_clear_transients">
+        <input type="checkbox"
+               id="force_clear_transients"
+               name="knihaslova_dev_options[force_clear_transients]"
+               value="on"
+               <?php checked('on', $checked); ?>
+        >
+        Aktivovat (Při každém načtení stránky příběhu se smaže její dočasná mezipaměť a data se stáhnou znovu z Google Sheets).
+    </label>
+    <p class="description">
+        <strong>Varování:</strong> Tuto volbu zapínejte pouze dočasně pro vývoj a ladění. Ponechání této volby aktivní může výrazně zpomalit web.
+    </p>
+    <?php
+}
+
