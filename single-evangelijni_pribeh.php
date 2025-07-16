@@ -6,6 +6,13 @@ $post_slug = get_post_field( 'post_name', get_the_ID() );
 
 // Získáme všechna data pro daný příběh pomocí vaší funkce
 $story_data = knihaslova_get_story_data($post_slug);
+
+// <<<<<<< PŘIDÁNO LOGOVÁNÍ ZDE >>>>>>>
+if ($story_data) {
+    error_log('Kniha Slova Debug (Template): Data pro slug "' . $post_slug . '" úspěšně předána do šablony.');
+} else {
+    error_log('Kniha Slova Debug (Template): Pro slug "' . $post_slug . '" nebyla do šablony předána žádná data.');
+}
 ?>
 
 <div id="primary" class="content-area">
