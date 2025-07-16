@@ -6,6 +6,14 @@ if (!$story_data) return;
 $info = $story_data['info'];
 $evangelists = ['Matous', 'Marek', 'Lukas', 'Jan'];
 
+// Pole pro zobrazení jmen s diakritikou
+$display_names = [
+    'Matous' => 'Matouš',
+    'Marek'  => 'Marek',
+    'Lukas'  => 'Lukáš',
+    'Jan'    => 'Jan'
+];
+
 // Zkusíme najít první dostupný překlad pro zobrazení
 $first_available_translation = null;
 if (!empty($story_data['translations']['katolicky'])) {
@@ -15,12 +23,11 @@ if (!empty($story_data['translations']['katolicky'])) {
 } elseif (!empty($story_data['translations']['jeruzalemsky'])) {
     $first_available_translation = $story_data['translations']['jeruzalemsky'];
 }
-
 ?>
 <div class="comparison-grid">
     <?php foreach ($evangelists as $evangelist): ?>
         <div class="grid-column">
-            <h3><?php echo $evangelist; ?></h3>
+            <h3><?php echo esc_html($display_names[$evangelist]); // Zobrazení jména s diakritikou ?></h3>
             <p class="citation"><em><?php echo esc_html($info[$evangelist . '_Citace'] ?? ''); ?></em></p>
             <div class="text-content">
                 <?php

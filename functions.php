@@ -81,13 +81,25 @@ add_action( 'init', 'register_evangelijni_pribeh_cpt', 0 );
 //======================================================================
 
 function child_theme_configurator_css() {
+    // Načte základní styl child šablony
     wp_enqueue_style( 'chld_thm_cfg_child', trailingslashit( get_stylesheet_directory_uri() ) . 'style.css', array( 'kadence-global','kadence-header','kadence-content','kadence-footer' ) );
-    wp_enqueue_style( 'kniha-slova-custom-styles', get_stylesheet_directory_uri() . '/css/custom-styles.css', array('chld_thm_cfg_child'), '1.0.2' );
+
+    // Podmíněné načítání stylů podle typu stránky
+    if ( is_singular('evangelijni_pribeh') ) {
+        // Načte styly pouze pro detail příběhu
+        wp_enqueue_style( 'kniha-slova-single-styles', get_stylesheet_directory_uri() . '/css/single-pribehu.css', array('chld_thm_cfg_child'), '1.0.0' );
+    } elseif ( is_post_type_archive('evangelijni_pribeh') ) {
+        // Načte styly pouze pro archiv příběhů
+        wp_enqueue_style( 'kniha-slova-archive-styles', get_stylesheet_directory_uri() . '/css/archiv-pribehu.css', array('chld_thm_cfg_child'), '1.0.0' );
+    }
 }
 add_action( 'wp_enqueue_scripts', 'child_theme_configurator_css', 20 );
 
 function knihaslova_enqueue_scripts() {
-    wp_enqueue_script( 'kniha-slova-main-js', get_stylesheet_directory_uri() . '/js/main.js', array(), '1.0.1', true );
+    // Načítání JS souboru zůstává stejné, je potřeba na detailu příběhu
+    if ( is_singular('evangelijni_pribeh') ) {
+        wp_enqueue_script( 'kniha-slova-main-js', get_stylesheet_directory_uri() . '/js/main.js', array(), '1.0.1', true );
+    }
 }
 add_action( 'wp_enqueue_scripts', 'knihaslova_enqueue_scripts' );
 
