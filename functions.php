@@ -150,8 +150,7 @@ function knihaslova_get_story_data($story_id) {
     if (empty($story_id)) {
         return null;
     }
-    
-    // Kešování, abychom nevolali Google Sheets při každém načtení stránky
+
     $transient_key = 'knihaslova_story_' . $story_id;
     $cached_data = get_transient($transient_key);
 
@@ -159,7 +158,6 @@ function knihaslova_get_story_data($story_id) {
         return $cached_data;
     }
 
-    // URL adresy vašich publikovaných CSV souborů
     $urls = [
         'pribehy'       => 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSjUiTc1VHd8teOLlQF51n5PLw1Z7MffXrovWmjfuypO5qR0ZV-vOE1oEZ2fFn95RvjpToiwFepiMm0/pub?gid=0&single=true&output=csv',
         'katolicky'     => 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSjUiTc1VHd8teOLlQF51n5PLw1Z7MffXrovWmjfuypO5qR0ZV-vOE1oEZ2fFn95RvjpToiwFepiMm0/pub?gid=581207951&single=true&output=csv',
@@ -182,22 +180,23 @@ function knihaslova_get_story_data($story_id) {
         return null;
     };
 
+    // Najdeme informace o příběhu (jeden řádek)
     $story_info = $find_row($pribehy_data, $story_id);
     if (!$story_info) {
         return null;
     }
 
+    // A k nim přidáme kompletní data překladů
     $final_data = [
         'info' => $story_info,
         'translations' => [
-            'katolicky' => $find_row($katolicky_data, $story_id),
+            'katolicky' => $find_row($katolicky_data, $story_id),     // OPRAVENO: Pro každý překlad najdeme správný řádek
             'ekumenicky' => $find_row($ekumenicky_data, $story_id),
             'jeruzalemsky' => $find_row($jeruzalemsky_data, $story_id)
         ]
     ];
-    
-    // Uložíme data do keše na 1 hodinu (3600 sekund)
+
     set_transient($transient_key, $final_data, 3600);
-    
+
     return $final_data;
 }

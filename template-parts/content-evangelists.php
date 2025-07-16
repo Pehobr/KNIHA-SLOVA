@@ -4,8 +4,18 @@ $story_data = get_query_var('story_data');
 if (!$story_data) return;
 
 $info = $story_data['info'];
-$texts = $story_data['translations']['katolicky']; // Prozatím použijeme katolický jako výchozí
 $evangelists = ['Matous', 'Marek', 'Lukas', 'Jan'];
+
+// Zkusíme najít první dostupný překlad pro zobrazení
+$first_available_translation = null;
+if (!empty($story_data['translations']['katolicky'])) {
+    $first_available_translation = $story_data['translations']['katolicky'];
+} elseif (!empty($story_data['translations']['ekumenicky'])) {
+    $first_available_translation = $story_data['translations']['ekumenicky'];
+} elseif (!empty($story_data['translations']['jeruzalemsky'])) {
+    $first_available_translation = $story_data['translations']['jeruzalemsky'];
+}
+
 ?>
 <div class="comparison-grid">
     <?php foreach ($evangelists as $evangelist): ?>
@@ -13,7 +23,14 @@ $evangelists = ['Matous', 'Marek', 'Lukas', 'Jan'];
             <h3><?php echo $evangelist; ?></h3>
             <p class="citation"><em><?php echo esc_html($info[$evangelist . '_Citace'] ?? ''); ?></em></p>
             <div class="text-content">
-                <?php echo nl2br(esc_html($texts[$evangelist . '_Text'] ?? 'Tento evangelista příběh nezmiňuje.')); ?>
+                <?php
+                // Zobrazíme text z prvního nalezeného překladu, pokud existuje
+                if ($first_available_translation && !empty($first_available_translation[$evangelist . '_Text'])) {
+                    echo nl2br(esc_html($first_available_translation[$evangelist . '_Text']));
+                } else {
+                    echo 'Tento evangelista příběh nezmiňuje.';
+                }
+                ?>
             </div>
         </div>
     <?php endforeach; ?>
