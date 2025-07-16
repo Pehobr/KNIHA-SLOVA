@@ -75,7 +75,6 @@ $analysis_page = get_page_by_path($analysis_slug, OBJECT, 'page');
         </div>
     </main>
 </div>
-
 <?php
 get_footer(); // Načte patičku šablony
 ?>

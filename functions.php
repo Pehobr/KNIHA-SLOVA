@@ -21,7 +21,7 @@ add_filter( 'locale_stylesheet_uri', 'chld_thm_cfg_locale_css' );
 
 function register_evangelijni_pribeh_cpt() {
     $labels = array(
-        'name'                  => _x( 'Evangelijní Příběhy', 'Post Type General Name', 'text_domain' ),
+        'name'                  => _x( 'Příběhy evangelia', 'Post Type General Name', 'text_domain' ),
         'singular_name'         => _x( 'Evangelijní Příběh', 'Post Type Singular Name', 'text_domain' ),
         'menu_name'             => __( 'Evangelijní Příběhy', 'text_domain' ),
         'name_admin_bar'        => __( 'Evangelijní Příběh', 'text_domain' ),

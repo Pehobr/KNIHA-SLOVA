@@ -74,3 +74,33 @@
 .evangelist-translation-content h4 {
     margin-top: 0;
 }
+
+/* Vycentrování hlavního nadpisu stránky s příběhem */
+.story-detail .page-header {
+    text-align: center;
+}
+
+/* Vycentrování záložek na mobilním zobrazení */
+@media (max-width: 767px) {
+    .story-detail .view-switcher {
+        justify-content: center;
+    }
+}
+
+/* === Redukce vertikálních mezer na PC === */
+
+/* 1. Zmenšení mezery NAD hlavním nadpisem (např. "Prolog") */
+.single-evangelijni_pribeh .content-area {
+    margin-top: 1.5rem !important;
+}
+
+/* 2. Zmenšení mezery POD hlavním nadpisem */
+.story-detail .page-header {
+    padding-bottom: 20px;
+    margin-bottom: 0;
+}
+
+/* 3. Zmenšení mezery POD záložkami */
+.story-detail .view-switcher {
+    margin-bottom: 15px;
+}
