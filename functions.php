@@ -6,8 +6,6 @@ if ( !defined( 'ABSPATH' ) ) exit;
 // 1. ZÁKLADNÍ NASTAVENÍ CHILD ŠABLONY
 //======================================================================
 
-// BEGIN ENQUEUE PARENT ACTION
-// AUTO GENERATED - Do not modify or remove comment markers above or below:
 if ( !function_exists( 'chld_thm_cfg_locale_css' ) ):
     function chld_thm_cfg_locale_css( $uri ){
         if ( empty( $uri ) && is_rtl() && file_exists( get_template_directory() . '/rtl.css' ) )
@@ -16,16 +14,11 @@ if ( !function_exists( 'chld_thm_cfg_locale_css' ) ):
     }
 endif;
 add_filter( 'locale_stylesheet_uri', 'chld_thm_cfg_locale_css' );
-// END ENQUEUE PARENT ACTION
-
 
 //======================================================================
 // 2. REGISTRACE VLASTNÍHO TYPU PŘÍSPĚVKU (CUSTOM POST TYPE)
 //======================================================================
 
-/**
- * Registruje vlastní typ příspěvku "Evangelijní Příběh".
- */
 function register_evangelijni_pribeh_cpt() {
     $labels = array(
         'name'                  => _x( 'Evangelijní Příběhy', 'Post Type General Name', 'text_domain' ),
@@ -87,23 +80,13 @@ add_action( 'init', 'register_evangelijni_pribeh_cpt', 0 );
 // 3. NAČÍTÁNÍ VLASTNÍCH CSS A JS SOUBORŮ
 //======================================================================
 
-/**
- * Načte styly pro child šablonu.
- */
 function child_theme_configurator_css() {
-    // Původní styly
     wp_enqueue_style( 'chld_thm_cfg_child', trailingslashit( get_stylesheet_directory_uri() ) . 'style.css', array( 'kadence-global','kadence-header','kadence-content','kadence-footer' ) );
-    
-    // Naše nové vlastní styly
-    wp_enqueue_style( 'kniha-slova-custom-styles', get_stylesheet_directory_uri() . '/css/custom-styles.css', array('chld_thm_cfg_child'), '1.0.1' );
+    wp_enqueue_style( 'kniha-slova-custom-styles', get_stylesheet_directory_uri() . '/css/custom-styles.css', array('chld_thm_cfg_child'), '1.0.2' );
 }
 add_action( 'wp_enqueue_scripts', 'child_theme_configurator_css', 20 );
 
-/**
- * Načte vlastní JavaScript soubory.
- */
 function knihaslova_enqueue_scripts() {
-    // Načte náš hlavní JS soubor a zajistí, aby se načetl v patičce
     wp_enqueue_script( 'kniha-slova-main-js', get_stylesheet_directory_uri() . '/js/main.js', array(), '1.0.1', true );
 }
 add_action( 'wp_enqueue_scripts', 'knihaslova_enqueue_scripts' );
@@ -115,29 +98,41 @@ add_action( 'wp_enqueue_scripts', 'knihaslova_enqueue_scripts' );
 
 /**
  * Načte a zpracuje data z publikované Google Tabulky (CSV).
+ * Tato verze správně zpracovává i buňky s více řádky.
  * @param string $sheet_url URL publikovaného CSV souboru.
  * @return array|false Pole dat nebo false při chybě.
  */
 function get_data_from_google_sheet($sheet_url) {
-    $response = wp_remote_get($sheet_url);
+    $response = wp_remote_get($sheet_url, array('timeout' => 20));
 
     if (is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200) {
+        error_log('Google Sheets Chyba: Nepodařilo se stáhnout data z URL: ' . $sheet_url);
         return false;
     }
 
     $body = wp_remote_retrieve_body($response);
-    $body = preg_replace('/^\x{FEFF}|\x{EF}\x{BB}\x{BF}/', '', $body); // Odstranění BOM
-    $rows = explode("\n", trim($body));
-    $header = str_getcsv(array_shift($rows));
+    $body = preg_replace('/^\x{FEFF}|\x{EF}\x{BB}\x{BF}/', '', $body);
+
+    $stream = fopen('php://memory', 'r+');
+    fwrite($stream, $body);
+    rewind($stream);
+
+    $header = fgetcsv($stream);
+    if ($header === false) {
+        fclose($stream);
+        return false;
+    }
 
     $data = [];
-    foreach ($rows as $row_str) {
-        if (trim($row_str) === '') continue;
-        $row = str_getcsv($row_str);
-        if (count($row) === count($header)) {
-            $data[] = array_combine($header, $row);
+    while (($row = fgetcsv($stream)) !== false) {
+        if (count($header) === count($row)) {
+            if (count(array_filter($row)) > 0) {
+                 $data[] = array_combine($header, $row);
+            }
         }
     }
+    fclose($stream);
+
     return $data;
 }
 
@@ -148,17 +143,15 @@ function get_data_from_google_sheet($sheet_url) {
  */
 function knihaslova_get_story_data($story_id) {
     if (empty($story_id)) {
-        error_log('Kniha Slova Debug: Funkce knihaslova_get_story_data byla volána s prázdným story_id.');
         return null;
     }
 
-    // Před každým načítáním dat vymažeme transient, abychom měli vždy čerstvá data pro ladění
     $transient_key = 'knihaslova_story_' . $story_id;
-    delete_transient($transient_key);
-    error_log('Kniha Slova Debug: Cache (transient) pro "' . $story_id . '" byla smazána pro účely ladění.');
+    $cached_data = get_transient($transient_key);
 
-
-    error_log('Kniha Slova Debug: Začínám zpracovávat příběh s ID: ' . $story_id);
+    if (false !== $cached_data) {
+        return $cached_data;
+    }
 
     $urls = [
         'pribehy'       => 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSjUiTc1VHd8teOLlQF51n5PLw1Z7MffXrovWmjfuypO5qR0ZV-vOE1oEZ2fFn95RvjpToiwFepiMm0/pub?gid=0&single=true&output=csv',
@@ -168,75 +161,35 @@ function knihaslova_get_story_data($story_id) {
     ];
 
     $pribehy_data = get_data_from_google_sheet($urls['pribehy']);
-    if (!$pribehy_data) error_log('Kniha Slova Debug: Nepodařilo se načíst data z URL pro "pribehy".');
-
     $katolicky_data = get_data_from_google_sheet($urls['katolicky']);
-    if (!$katolicky_data) error_log('Kniha Slova Debug: Nepodařilo se načíst data z URL pro "katolicky".');
-
     $ekumenicky_data = get_data_from_google_sheet($urls['ekumenicky']);
-    if (!$ekumenicky_data) error_log('Kniha Slova Debug: Nepodařilo se načíst data z URL pro "ekumenicky".');
-
     $jeruzalemsky_data = get_data_from_google_sheet($urls['jeruzalemsky']);
-    if (!$jeruzalemsky_data) error_log('Kniha Slova Debug: Nepodařilo se načíst data z URL pro "jeruzalemsky".');
-
 
     $find_row = function($data, $id) {
         if (!$data) return null;
         foreach ($data as $row) {
-            if (isset($row['ID_pribehu']) && $row['ID_pribehu'] == $id) {
+            if (isset($row['ID_pribehu']) && trim($row['ID_pribehu']) === $id) {
                 return $row;
             }
         }
         return null;
     };
 
-    // Najdeme informace o příběhu (jeden řádek)
     $story_info = $find_row($pribehy_data, $story_id);
     if (!$story_info) {
-        error_log('Kniha Slova Debug: Pro ID "' . $story_id . '" nebyl nalezen žádný záznam v hlavním sešitu "pribehy". Zpracování končí.');
         return null;
     }
-    error_log('Kniha Slova Debug: Pro ID "' . $story_id . '" nalezena data v "pribehy".');
 
-
-    // Najdeme překlady
-    $katolicky_row = $find_row($katolicky_data, $story_id);
-    if (!$katolicky_row) {
-        error_log('Kniha Slova Debug: Pro ID "' . $story_id . '" nenalezen katolický překlad.');
-    } else {
-        error_log('Kniha Slova Debug: Pro ID "' . $story_id . '" nalezen katolický překlad.');
-    }
-
-    $ekumenicky_row = $find_row($ekumenicky_data, $story_id);
-    if (!$ekumenicky_row) {
-        error_log('Kniha Slova Debug: Pro ID "' . $story_id . '" nenalezen ekumenický překlad.');
-    } else {
-        error_log('Kniha Slova Debug: Pro ID "' . $story_id . '" nalezen ekumenický překlad.');
-    }
-
-    $jeruzalemsky_row = $find_row($jeruzalemsky_data, $story_id);
-    if (!$jeruzalemsky_row) {
-        error_log('Kniha Slova Debug: Pro ID "' . $story_id . '" nenalezen jeruzalémský překlad.');
-    } else {
-        error_log('Kniha Slova Debug: Pro ID "' . $story_id . '" nalezen jeruzalémský překlad.');
-    }
-
-    // A k nim přidáme kompletní data překladů
     $final_data = [
         'info' => $story_info,
         'translations' => [
-            'katolicky' => $katolicky_row,
-            'ekumenicky' => $ekumenicky_row,
-            'jeruzalemsky' => $jeruzalemsky_row
+            'katolicky' => $find_row($katolicky_data, $story_id),
+            'ekumenicky' => $find_row($ekumenicky_data, $story_id),
+            'jeruzalemsky' => $find_row($jeruzalemsky_data, $story_id)
         ]
     ];
-    
-    // Logování finální datové struktury (jen klíče, abychom nezahltili log)
-    error_log('Kniha Slova Debug: Finální struktura dat pro "' . $story_id . '": ' . print_r(array_keys($final_data), true));
-    error_log('Kniha Slova Debug: Klíče v překladech: ' . print_r(array_keys($final_data['translations']), true));
 
-
-    set_transient($transient_key, $final_data, 3600); // Uložíme do cache na 1 hodinu
+    set_transient($transient_key, $final_data, 3600);
 
     return $final_data;
 }
