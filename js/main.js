@@ -44,7 +44,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     tabs.forEach(t => t.classList.remove('active'));
                     contents.forEach(c => c.classList.remove('active'));
                     const targetId = tab.getAttribute(dataAttribute);
-                    const targetContent = document.getElementById(contentClass.split(' ')[0] + '-' + targetId);
+                    
+                    // --- TOTO JE OPRAVA ---
+                    // Předpona pro ID (např. "exegesis", "spiritual") se odvodí z názvu třídy přepínače.
+                    const idPrefix = switcherClass.split('-')[0];
+                    const targetContent = document.getElementById(idPrefix + '-' + targetId);
+                    // --- KONEC OPRAVY ---
+
                     tab.classList.add('active');
                     if (targetContent) {
                         targetContent.classList.add('active');
