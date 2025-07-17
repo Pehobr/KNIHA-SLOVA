@@ -2,7 +2,7 @@
    Finální styly pro archiv příběhů - Kniha Slova
    ========================================================================== */
 
-/* === Vzhled horního pruhu (Hero sekce) === */
+/* === Hlavní layout a pozadí === */
 
 .post-type-archive-evangelijni_pribeh .entry-hero,
 .post-type-archive-evangelijni_pribeh .content-container.site-container {
@@ -16,20 +16,42 @@
 }
 
 
-/* === Styly pro boxy s příběhy === */
+/* === Skrytí postranního panelu a roztažení obsahu === */
+
+.post-type-archive-evangelijni_pribeh #secondary {
+    display: none !important;
+}
+
+.post-type-archive-evangelijni_pribeh .content-container {
+    grid-template-columns: 1fr !important;
+}
+
+
+/* === Styly pro boxy s příběhy (nově jako tlačítka) === */
 
 .post-type-archive-evangelijni_pribeh .entry.loop-entry {
     background-color: #514332 !important;
-    border: 2px solid rgba(255, 255, 255, 0.4) !important;
+    border: 1px solid #7a6a58; /* Světlejší horní/levý okraj */
+    border-bottom-color: #2b2319; /* Tmavší spodní okraj */
+    border-right-color: #2b2319; /* Tmavší pravý okraj */
     border-radius: 8px !important;
-    box-shadow: none !important;
-    transition: border-color 0.3s ease !important;
+    cursor: pointer;
+    position: relative;
+    top: 0;
+    /* Hlavní stín pro 3D efekt */
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 
+                0 4px 0 #2b2319; /* "Tloušťka" tlačítka */
+    transition: all 0.1s ease-in-out;
 }
 
-.post-type-archive-evangelijni_pribeh .entry.loop-entry:hover {
-    border-color: rgba(255, 255, 255, 0.8) !important;
+/* Efekt stisknutí tlačítka */
+.post-type-archive-evangelijni_pribeh .entry.loop-entry:active {
+    top: 3px; /* Posunutí dolů při kliknutí */
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 
+                0 1px 0 #2b2319; /* Zmenšení "tloušťky" */
 }
 
+/* Nadpis a odkaz uvnitř boxu */
 .post-type-archive-evangelijni_pribeh .entry.loop-entry .entry-title,
 .post-type-archive-evangelijni_pribeh .entry.loop-entry .entry-title a {
     color: #FFFFFF !important;
@@ -54,10 +76,4 @@
     .post-type-archive-evangelijni_pribeh .content-container {
         grid-template-columns: 1fr;
     }
-}
-
-/* Nastavení bočního odsazení pro archiv příběhů */
-.post-type-archive-evangelijni_pribeh .content-container.site-container {
-    padding-left: 12px;  /* Upravte tuto hodnotu pro levou stranu */
-    padding-right: 12px; /* Upravte tuto hodnotu pro pravou stranu */
 }
