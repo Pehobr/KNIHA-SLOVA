@@ -20,20 +20,27 @@ $citations_by_evangelist = [
     'Lukas'  => [],
     'Jan'    => [],
 ];
-$display_names = [
+
+// Pole s plnými jmény pro PC a tablety
+$full_names = [
     'Matous' => 'Matouš',
     'Marek'  => 'Marek',
     'Lukas'  => 'Lukáš',
     'Jan'    => 'Jan'
 ];
 
+// Pole se zkratkami pro mobily
+$short_names = [
+    'Matous' => 'Mt',
+    'Marek'  => 'Mk',
+    'Lukas'  => 'Lk',
+    'Jan'    => 'Jan'
+];
+
 if ($all_stories_query->have_posts()) {
     while ($all_stories_query->have_posts()) {
         $all_stories_query->the_post();
-        // Získáme slug (ID) příběhu přímo z objektu post
         $post_slug = get_post_field('post_name', get_the_ID());
-        
-        // Načteme data pomocí vaší funkce, která využívá slug
         $story_data = knihaslova_get_story_data($post_slug);
 
         // 1. Uložení pro katalog podle názvu
@@ -51,7 +58,6 @@ if ($all_stories_query->have_posts()) {
                     $citations_by_evangelist[$evangelist][] = [
                         'citation' => $citation,
                         'permalink' => get_the_permalink(),
-                        // Použijeme globální funkci z functions.php
                         'sort_key' => knihaslova_get_citation_sort_key($citation)
                     ];
                 }
@@ -64,13 +70,11 @@ if ($all_stories_query->have_posts()) {
 // Seřadíme citace pro každého evangelistu podle sort_key
 foreach ($citations_by_evangelist as $evangelist => &$citations) {
     if (!empty($citations)) {
-        // Vytvoříme pole sort_key pro řazení
         $sort_keys = array_column($citations, 'sort_key');
-        // Seřadíme pole citací podle klíčů
         array_multisort($sort_keys, SORT_ASC, $citations);
     }
 }
-unset($citations); // Zrušíme referenci
+unset($citations);
 
 ?>
 
@@ -106,7 +110,8 @@ unset($citations); // Zrušíme referenci
                     <?php foreach ($citations_by_evangelist as $key => $citations): ?>
                         <?php if(!empty($citations)): ?>
                         <button class="nav-tab <?php if($first) { echo 'active'; $first = false; } ?>" data-evangelist="<?php echo strtolower($key); ?>">
-                            <?php echo $display_names[$key]; ?>
+                            <span class="fullname"><?php echo esc_html($full_names[$key]); ?></span>
+                            <span class="shortname"><?php echo esc_html($short_names[$key]); ?></span>
                         </button>
                         <?php endif; ?>
                     <?php endforeach; ?>

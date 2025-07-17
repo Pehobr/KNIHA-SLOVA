@@ -76,3 +76,26 @@
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2),
                 0 1px 0 #2b2319;
 }
+
+/* ==========================================================================
+   Responzivní zobrazení jmen evangelistů
+   ========================================================================== */
+
+/* Na velkých obrazovkách (výchozí stav) */
+.evangelist-switcher .nav-tab .shortname {
+    display: none; /* Zkratky jsou skryté */
+}
+.evangelist-switcher .nav-tab .fullname {
+    display: inline; /* Celá jména jsou viditelná */
+}
+
+
+/* Na malých obrazovkách (mobily) - zlom pro tablety na výšku a menší */
+@media (max-width: 768px) {
+    .evangelist-switcher .nav-tab .shortname {
+        display: inline; /* Zkratky se zobrazí */
+    }
+    .evangelist-switcher .nav-tab .fullname {
+        display: none; /* Celá jména se skryjí */
+    }
+}
