@@ -51,7 +51,7 @@ function register_evangelijni_pribeh_cpt() {
     );
     $args = array(
         'label'                 => __( 'Evangelijní Příběh', 'text_domain' ),
-        'description'           => __( 'Biblické příběhy z evangelií pro exegezi.', 'text_domain' ),
+        'description'           => __( 'Biblické texty pro exegezi.', 'text_domain' ),
         'labels'                => $labels,
         'supports'              => array( 'title', 'editor', 'thumbnail', 'excerpt', 'comments', 'revisions', 'custom-fields' ),
         'taxonomies'            => array(),

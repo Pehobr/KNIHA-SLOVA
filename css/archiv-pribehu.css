@@ -83,3 +83,21 @@
     padding-left: 12px;  /* Upravte tuto hodnotu pro levou stranu */
     padding-right: 12px; /* Upravte tuto hodnotu pro pravou stranu */
 }
+
+/* === MOBILNÍ ZOBRAZENÍ (šířka 767px a méně) === */
+@media (max-width: 767px) {
+    /* Skrytí bočního menu na mobilních zařízeních */
+    .post-type-archive-evangelijni_pribeh #secondary {
+        display: none;
+    }
+
+    /* Roztažení obsahu na celou šířku, když je boční menu skryté */
+    .post-type-archive-evangelijni_pribeh .content-container {
+        grid-template-columns: 1fr;
+    }
+
+    /* <<< NOVÉ PRAVIDLO ZDE: Snížení vertikální mezery mezi boxy >>> */
+    .post-type-archive-evangelijni_pribeh #archive-container {
+        row-gap: 15px; /* Upravte hodnotu podle potřeby */
+    }
+}
