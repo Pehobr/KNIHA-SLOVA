@@ -18,8 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 do_action( 'kadence_after_content' );
 ?>
-	</div><!-- #inner-wrap -->
-	<?php
+	</div><?php
 	do_action( 'kadence_before_footer' );
 	/**
 	 * Kadence footer hook.
@@ -34,8 +33,18 @@ do_action( 'kadence_after_content' );
 	
 	do_action( 'kadence_after_footer' );
 	?>
-</div><!-- #wrapper -->
-<?php do_action( 'kadence_after_wrapper' ); ?>
+</div><?php do_action( 'kadence_after_wrapper' ); ?>
+
+<?php // ?>
+<div class="mobile-bottom-bar">
+    <a href="#" class="mobile-nav-icon"><i class="fa fa-user" aria-hidden="true"></i></a>
+    <a href="#" class="mobile-nav-icon"><i class="fa fa-search" aria-hidden="true"></i></a>
+    <a href="#" class="mobile-nav-icon mobile-nav-icon-home"><i class="fa fa-home" aria-hidden="true"></i></a>
+    <a href="#" class="mobile-nav-icon"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+    <a href="#" class="mobile-nav-icon"><i class="fa fa-cog" aria-hidden="true"></i></a>
+</div>
+<?php // ?>
+
 
 <?php wp_footer(); ?>
 </body>
