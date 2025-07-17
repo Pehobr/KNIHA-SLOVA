@@ -7,6 +7,10 @@ $story_data = knihaslova_get_story_data($post_slug);
 // Načtení stránky pro Srovnání (dříve SHRNUTÍ)
 $comparison_page_slug = $post_slug . '-srovnani';
 $comparison_page = get_page_by_path($comparison_page_slug, OBJECT, 'page');
+
+// --- PŘIDÁNO: Načtení stránky pro Podcast ---
+$podcast_page_slug = $post_slug . '-podcast';
+$podcast_page = get_page_by_path($podcast_page_slug, OBJECT, 'page');
 ?>
 
 <div id="primary" class="content-area">
@@ -22,7 +26,6 @@ $comparison_page = get_page_by_path($comparison_page_slug, OBJECT, 'page');
                     <h1 class="page-title"><?php echo esc_html($story_data['info']['Nazev_pribehu'] ?? get_the_title()); ?></h1>
                 </div>
 
-                <?php // <<< ZMĚNA ZDE: Přejmenování záložek >>> ?>
                 <div class="view-switcher">
                     <button class="nav-tab active" data-target="evangelists-view">Texty evangelistů</button>
                     <button class="nav-tab" data-target="translations-view">Srovnání překladů</button>
@@ -31,6 +34,11 @@ $comparison_page = get_page_by_path($comparison_page_slug, OBJECT, 'page');
 
                     <?php if ($comparison_page): ?>
                         <button class="nav-tab" data-target="text-comparison-view">SHRNUTÍ</button>
+                    <?php endif; ?>
+                    
+                    <?php // --- PŘIDÁNO: Tlačítko pro AI Podcast --- ?>
+                    <?php if ($podcast_page): ?>
+                        <button class="nav-tab" data-target="podcast-view">AI podcast</button>
                     <?php endif; ?>
                 </div>
 
@@ -62,6 +70,17 @@ $comparison_page = get_page_by_path($comparison_page_slug, OBJECT, 'page');
                 <div id="text-comparison-view" class="tab-content">
                     <div class="analysis-content" style="padding-top: 20px;">
                         <?php echo apply_filters('the_content', $comparison_page->post_content); ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <?php // --- PŘIDÁNO: Kontejner pro AI Podcast --- ?>
+                <?php if ($podcast_page): ?>
+                <div id="podcast-view" class="tab-content">
+                    <div class="podcast-player-container">
+                        <div class="podcast-source-content" style="display: none;">
+                            <?php echo apply_filters('the_content', $podcast_page->post_content); ?>
+                        </div>
                     </div>
                 </div>
                 <?php endif; ?>

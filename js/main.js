@@ -66,3 +66,86 @@ document.addEventListener('DOMContentLoaded', function () {
     setupEvangelistSwitcher('spiritual-switcher', 'spiritual-content', 'data-spiritual-target');
 
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    
+    // ... (stávající kód pro proklikávací boxy a přepínání záložek) ...
+
+    // --- PŘIDÁNO: Funkce pro vytvoření a ovládání audio přehrávače ---
+    function setupPodcastPlayer() {
+        const playerWrapper = document.querySelector('.podcast-player-container');
+        if (!playerWrapper) return;
+
+        // Najdeme skrytý obsah a v něm odkaz na MP3
+        const sourceContent = playerWrapper.querySelector('.podcast-source-content');
+        const mp3Link = sourceContent ? sourceContent.querySelector('a[href$=".mp3"]') : null;
+
+        if (!mp3Link) {
+            playerWrapper.innerHTML = '<p>Pro tento příběh zatím není k dispozici žádný podcast.</p>';
+            return;
+        }
+
+        const mp3Url = mp3Link.href;
+        
+        // Vytvoříme HTML strukturu přehrávače
+        playerWrapper.innerHTML = `
+            <div class="ai-audio-player">
+                <button class="play-pause-btn" aria-label="Přehrát podcast">
+                    <i class="fa fa-play"></i>
+                </button>
+                <div class="progress-bar-wrapper">
+                    <div class="progress-bar"></div>
+                </div>
+                <div class="time-display">0:00</div>
+            </div>
+        `;
+
+        const audio = new Audio(mp3Url);
+        const playPauseBtn = playerWrapper.querySelector('.play-pause-btn');
+        const playIcon = playPauseBtn.querySelector('i');
+        const progressBar = playerWrapper.querySelector('.progress-bar');
+        const progressBarWrapper = playerWrapper.querySelector('.progress-bar-wrapper');
+        const timeDisplay = playerWrapper.querySelector('.time-display');
+
+        // Formátování času z sekund na MM:SS
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        // Přepínání play/pause
+        playPauseBtn.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+                playIcon.className = 'fa fa-pause';
+                playPauseBtn.setAttribute('aria-label', 'Pozastavit podcast');
+            } else {
+                audio.pause();
+                playIcon.className = 'fa fa-play';
+                playPauseBtn.setAttribute('aria-label', 'Přehrát podcast');
+            }
+        });
+
+        // Aktualizace progress baru a času
+        audio.addEventListener('timeupdate', () => {
+            const progressPercent = (audio.currentTime / audio.duration) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+            timeDisplay.textContent = formatTime(audio.currentTime);
+        });
+        
+        // Posouvání v nahrávce kliknutím na progress bar
+        progressBarWrapper.addEventListener('click', (e) => {
+            const wrapperWidth = progressBarWrapper.clientWidth;
+            const clickX = e.offsetX;
+            const duration = audio.duration;
+            if (duration) {
+                audio.currentTime = (clickX / wrapperWidth) * duration;
+            }
+        });
+    }
+
+    // Aktivace všech funkcí
+    setupPodcastPlayer();
+    
+});
