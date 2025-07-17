@@ -1,15 +1,20 @@
 /* ==========================================================================
    Finální styly pro archiv příběhů - Kniha Slova
+   Cílí na původní archiv (.post-type-archive-evangelijni_pribeh)
+   i na novou šablonu stránky (.page-template-template-pribehy-php)
    ========================================================================== */
 
 /* === Hlavní layout a pozadí === */
 
 .post-type-archive-evangelijni_pribeh .entry-hero,
-.post-type-archive-evangelijni_pribeh .content-container.site-container {
+.page-template-template-pribehy-php .entry-hero,
+.post-type-archive-evangelijni_pribeh .content-container.site-container,
+.page-template-template-pribehy-php .content-container.site-container {
     background: transparent !important;
 }
 
-.post-type-archive-evangelijni_pribeh .entry-hero .entry-header {
+.post-type-archive-evangelijni_pribeh .entry-hero .entry-header,
+.page-template-template-pribehy-php .entry-hero .entry-header {
     min-height: 10px !important;
     padding-top: 2rem !important;
     padding-bottom: 2rem !important;
@@ -18,46 +23,52 @@
 
 /* === Skrytí postranního panelu a roztažení obsahu === */
 
-.post-type-archive-evangelijni_pribeh #secondary {
+.post-type-archive-evangelijni_pribeh #secondary,
+.page-template-template-pribehy-php #secondary {
     display: none !important;
 }
 
-.post-type-archive-evangelijni_pribeh .content-container {
+.post-type-archive-evangelijni_pribeh .content-container,
+.page-template-template-pribehy-php .content-container {
     grid-template-columns: 1fr !important;
 }
 
 
-/* === Styly pro boxy s příběhy (nově jako tlačítka) === */
+/* === Styly pro boxy s příběhy (jako prostorová tlačítka) === */
 
-.post-type-archive-evangelijni_pribeh .entry.loop-entry {
+.post-type-archive-evangelijni_pribeh .entry.loop-entry,
+.page-template-template-pribehy-php .entry.loop-entry {
     background-color: #514332 !important;
-    border: 1px solid #7a6a58; /* Světlejší horní/levý okraj */
-    border-bottom-color: #2b2319; /* Tmavší spodní okraj */
-    border-right-color: #2b2319; /* Tmavší pravý okraj */
+    border: 1px solid #7a6a58;
+    border-bottom-color: #2b2319;
+    border-right-color: #2b2319;
     border-radius: 8px !important;
     cursor: pointer;
     position: relative;
     top: 0;
-    /* Hlavní stín pro 3D efekt */
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 
-                0 4px 0 #2b2319; /* "Tloušťka" tlačítka */
+                0 4px 0 #2b2319;
     transition: all 0.1s ease-in-out;
 }
 
 /* Efekt stisknutí tlačítka */
-.post-type-archive-evangelijni_pribeh .entry.loop-entry:active {
-    top: 3px; /* Posunutí dolů při kliknutí */
+.post-type-archive-evangelijni_pribeh .entry.loop-entry:active,
+.page-template-template-pribehy-php .entry.loop-entry:active {
+    top: 3px;
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2), 
-                0 1px 0 #2b2319; /* Zmenšení "tloušťky" */
+                0 1px 0 #2b2319;
 }
 
 /* Nadpis a odkaz uvnitř boxu */
 .post-type-archive-evangelijni_pribeh .entry.loop-entry .entry-title,
-.post-type-archive-evangelijni_pribeh .entry.loop-entry .entry-title a {
+.page-template-template-pribehy-php .entry.loop-entry .entry-title,
+.post-type-archive-evangelijni_pribeh .entry.loop-entry .entry-title a,
+.page-template-template-pribehy-php .entry.loop-entry .entry-title a {
     color: #FFFFFF !important;
 }
 
-.post-type-archive-evangelijni_pribeh .entry.loop-entry .entry-read-more-wrap a {
+.post-type-archive-evangelijni_pribeh .entry.loop-entry .entry-read-more-wrap a,
+.page-template-template-pribehy-php .entry.loop-entry .entry-read-more-wrap a {
     color: #F0E68C !important;
     font-weight: bold;
     text-transform: uppercase;
@@ -67,37 +78,21 @@
 
 /* === MOBILNÍ ZOBRAZENÍ (šířka 767px a méně) === */
 @media (max-width: 767px) {
-    /* Skrytí bočního menu na mobilních zařízeních */
-    .post-type-archive-evangelijni_pribeh #secondary {
+    /* Skrytí bočního menu na mobilu */
+    .post-type-archive-evangelijni_pribeh #secondary,
+    .page-template-template-pribehy-php #secondary {
         display: none;
     }
 
-    /* Roztažení obsahu na celou šířku, když je boční menu skryté */
-    .post-type-archive-evangelijni_pribeh .content-container {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Nastavení bočního odsazení pro archiv příběhů */
-.post-type-archive-evangelijni_pribeh .content-container.site-container {
-    padding-left: 12px;  /* Upravte tuto hodnotu pro levou stranu */
-    padding-right: 12px; /* Upravte tuto hodnotu pro pravou stranu */
-}
-
-/* === MOBILNÍ ZOBRAZENÍ (šířka 767px a méně) === */
-@media (max-width: 767px) {
-    /* Skrytí bočního menu na mobilních zařízeních */
-    .post-type-archive-evangelijni_pribeh #secondary {
-        display: none;
-    }
-
-    /* Roztažení obsahu na celou šířku, když je boční menu skryté */
-    .post-type-archive-evangelijni_pribeh .content-container {
+    /* Roztažení obsahu na celou šířku */
+    .post-type-archive-evangelijni_pribeh .content-container,
+    .page-template-template-pribehy-php .content-container {
         grid-template-columns: 1fr;
     }
 
-    /* <<< NOVÉ PRAVIDLO ZDE: Snížení vertikální mezery mezi boxy >>> */
-    .post-type-archive-evangelijni_pribeh #archive-container {
-        row-gap: 15px; /* Upravte hodnotu podle potřeby */
+    /* Snížení vertikální mezery mezi boxy na mobilu */
+    .post-type-archive-evangelijni_pribeh #archive-container,
+    .page-template-template-pribehy-php #archive-container {
+        row-gap: 15px;
     }
 }
