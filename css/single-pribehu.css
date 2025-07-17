@@ -157,3 +157,49 @@
     }
 }
 
+/* === Styly pro záložku Exegeze === */
+
+.exegesis-switcher {
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.exegesis-content {
+    display: none;
+}
+
+.exegesis-content.active {
+    display: block;
+}
+
+.exegesis-base-text {
+    background-color: #d8d5d1; /* <<< TUTO HODNOTU JSEM ZMĚNIL */
+    border-left: 3px solid #514332; /* Tmavší ohraničení pro kontrast */
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    font-size: 0.95em;
+    color: #3e2f1c; /* Tmavší text pro lepší čitelnost */
+}
+
+.exegesis-base-text h4 {
+    margin-top: 0;
+    color: #333;
+}
+
+.exegesis-base-text p {
+    margin-bottom: 0;
+}
+
+/* Styly pro záložku Duchovní výklad */
+.spiritual-switcher {
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.spiritual-content {
+    display: none;
+}
+
+.spiritual-content.active {
+    display: block;
+}
