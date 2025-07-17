@@ -75,3 +75,50 @@ Updated: 2025-07-16 07:01:17
         padding-bottom: 60px;
     }
 }
+
+/* ==========================================================================
+   Fixní hlavička na mobilních a tabletových zařízeních
+   ========================================================================== */
+
+/* Cílíme na zařízení se šířkou do 1024px (standardní breakpoint pro tablety) */
+@media (max-width: 1024px) {
+
+    /* Krok 1: Nastavíme hlavičku jako fixní, aby zůstala nahoře */
+    /* Používáme ID #masthead, což je hlavní kontejner pro hlavičku v šabloně Kadence. */
+    #masthead {
+        position: fixed !important; /* !important zajistí přepsání původních stylů šablony */
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.1); /* Jemný stín pro vizuální oddělení od obsahu */
+    }
+
+    /* Krok 2: Vytvoříme prostor pro fixní hlavičku */
+    /* Protože je hlavička vyjmuta z toku stránky, musíme posunout zbytek obsahu dolů. */
+    body {
+        /* Odhadovaná výška hlavičky je 65px. Pokud by po úpravě hlavička překrývala obsah nebo byla mezera moc velká, stačí upravit tuto hodnotu. */
+        padding-top: 65px;
+    }
+
+    /* Krok 3: Zohledníme černou admin lištu WordPressu pro přihlášené uživatele */
+    /* Když jste přihlášen, WordPress přidá nahoře černou lištu. Musíme naši fixní hlavičku posunout pod ni. */
+    
+    /* Pro mobily (šířka < 783px) je admin lišta vysoká 46px */
+    body.admin-bar #masthead {
+        top: 46px;
+    }
+    body.admin-bar {
+        padding-top: calc(65px + 46px); /* Sečteme výšku hlavičky a admin lišty */
+    }
+
+    /* Pro tablety (šířka >= 783px) je admin lišta vysoká 32px */
+    @media (min-width: 783px) {
+        body.admin-bar #masthead {
+            top: 32px;
+        }
+        body.admin-bar {
+            padding-top: calc(65px + 32px);
+        }
+    }
+}
