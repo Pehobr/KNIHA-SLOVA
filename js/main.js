@@ -1,32 +1,35 @@
 document.addEventListener('DOMContentLoaded', function () {
     
-    // --- NOVÝ KÓD: Logika pro proklikávací boxy na archivu ---
-    const storyBoxes = document.querySelectorAll('.post-type-archive-evangelijni_pribeh .entry.loop-entry');
+    // --- OPRAVENÝ KÓD: Logika pro proklikávací boxy ---
+    // Selektor je nyní správně a cílí na obě stránky.
+    const storyBoxes = document.querySelectorAll(
+        '.post-type-archive-evangelijni_pribeh .entry.loop-entry, .page-template-template-pribehy-php .entry.loop-entry'
+    );
 
-    storyBoxes.forEach(box => {
-        box.addEventListener('click', function (e) {
-            // Najdeme první odkaz uvnitř boxu (obvykle odkaz v nadpisu)
-            const link = box.querySelector('a');
+    if (storyBoxes.length > 0) {
+        storyBoxes.forEach(box => {
+            box.style.cursor = 'pointer'; // Přidá kurzor pro všechny boxy
+            box.addEventListener('click', function (e) {
+                // Najdeme první odkaz uvnitř boxu
+                const link = box.querySelector('a');
 
-            // Pokud odkaz existuje a neklikli jsme přímo na jiný odkaz, přesměrujeme.
-            if (link && e.target.tagName !== 'A') {
-                window.location.href = link.href;
-            }
+                // Pokud odkaz existuje a neklikli jsme přímo na jiný odkaz, přesměrujeme.
+                if (link && e.target.tagName !== 'A') {
+                    window.location.href = link.href;
+                }
+            });
         });
-    });
+    }
 
-
-    // --- PŮVODNÍ KÓD: Přepínání záložek na detailu příběhu ---
-    // Tento kód je nyní obecnější a bude fungovat na více místech.
+    // --- KÓD PRO PŘEPÍNÁNÍ ZÁLOŽEK ---
     
-    // Přepínání hlavních pohledů (Detail příběhu, Katalog)
+    // Přepínání hlavních pohledů
     const viewTabs = document.querySelectorAll('.view-switcher .nav-tab');
     const viewContents = document.querySelectorAll('.tab-content');
 
     if (viewTabs.length > 0) {
         viewTabs.forEach(tab => {
             tab.addEventListener('click', () => {
-                // Skryjeme vše ve stejné skupině
                 viewTabs.forEach(t => t.classList.remove('active'));
                 viewContents.forEach(c => c.classList.remove('active'));
 
@@ -41,12 +44,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Přepínání evangelistů (Detail příběhu, Katalog)
+    // Přepínání evangelistů
     const evangelistTabs = document.querySelectorAll('.evangelist-switcher .nav-tab');
     const evangelistContents = document.querySelectorAll('.evangelist-translation-content, .evangelist-citation-content');
 
     if (evangelistTabs.length > 0) {
-        // Nejprve skryjeme všechny obsahy kromě prvního aktivního
         let isFirstActiveFound = false;
         evangelistContents.forEach(c => {
             if (c.classList.contains('active')) {

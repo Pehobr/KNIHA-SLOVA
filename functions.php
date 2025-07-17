@@ -99,9 +99,9 @@ function child_theme_configurator_css() {
 add_action( 'wp_enqueue_scripts', 'child_theme_configurator_css', 20 );
 
 function knihaslova_enqueue_scripts() {
-    // Načítání JS souboru na detailu, archivu a katalogu příběhů
-    if ( is_singular('evangelijni_pribeh') || is_post_type_archive('evangelijni_pribeh') || is_page_template('page-katalog.php') ) { // <<< PŘIDÁNO PRO KATALOG
-        wp_enqueue_script( 'kniha-slova-main-js', get_stylesheet_directory_uri() . '/js/main.js', array(), '1.0.3', true );
+    // Načítání JS souboru na detailu, na archivu i na stránce se šablonou
+    if ( is_singular('evangelijni_pribeh') || is_post_type_archive('evangelijni_pribeh') || is_page_template('template-pribehy.php') ) {
+        wp_enqueue_script( 'kniha-slova-main-js', get_stylesheet_directory_uri() . '/js/main.js', array(), '1.0.3', true ); // Zvýšil jsem verzi pro jistotu
     }
 }
 add_action( 'wp_enqueue_scripts', 'knihaslova_enqueue_scripts' );
