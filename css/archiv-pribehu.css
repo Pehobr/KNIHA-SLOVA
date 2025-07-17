@@ -77,3 +77,9 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* Nastavení bočního odsazení pro archiv příběhů */
+.post-type-archive-evangelijni_pribeh .content-container.site-container {
+    padding-left: 12px;  /* Upravte tuto hodnotu pro levou stranu */
+    padding-right: 12px; /* Upravte tuto hodnotu pro pravou stranu */
+}
