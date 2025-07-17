@@ -38,9 +38,7 @@ do_action( 'kadence_after_content' );
 <?php // ?>
 <div class="mobile-bottom-bar">
     <a href="#" class="mobile-nav-icon"><i class="fa fa-user" aria-hidden="true"></i></a>
-    <a href="#" class="mobile-nav-icon"><i class="fa fa-search" aria-hidden="true"></i></a>
-    <a href="#" class="mobile-nav-icon mobile-nav-icon-home"><i class="fa fa-home" aria-hidden="true"></i></a>
-    <a href="#" class="mobile-nav-icon"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+	<a href="/katalog-pribehu/" class="mobile-nav-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></a>	<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="mobile-nav-icon mobile-nav-icon-home"><i class="fa fa-home" aria-hidden="true"></i></a>    <a href="#" class="mobile-nav-icon"><i class="fa fa-archive" aria-hidden="true"></i></a>
     <a href="#" class="mobile-nav-icon"><i class="fa fa-cog" aria-hidden="true"></i></a>
 </div>
 <?php // ?>
