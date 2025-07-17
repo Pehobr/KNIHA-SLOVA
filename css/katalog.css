@@ -1,0 +1,78 @@
+/* ==========================================================================
+   Styly pro stránku Katalogu - Kniha Slova
+   ========================================================================== */
+
+/* === Základní layout a přepínač pohledů === */
+.page-katalog .view-switcher,
+.page-katalog .evangelist-switcher {
+    margin-bottom: 25px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.page-katalog .nav-tab {
+    padding: 10px 15px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    background-color: #b7a99a;
+    color: #ffffff;
+    border-radius: 5px 5px 0 0;
+    opacity: 0.8;
+}
+
+.page-katalog .nav-tab.active {
+    border-color: #ddd;
+    border-bottom-color: white;
+    background-color: white;
+    font-weight: bold;
+    color: #333333;
+    opacity: 1;
+}
+
+.page-katalog .tab-content,
+.page-katalog .evangelist-citation-content {
+    display: none;
+}
+
+.page-katalog .tab-content.active,
+.page-katalog .evangelist-citation-content.active {
+    display: block;
+}
+
+
+/* === Mřížka pro tlačítka (používá se pro oba pohledy) === */
+.katalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* === Vzhled tlačítek (převzato a upraveno z archivu) === */
+.katalog-button {
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    padding: 15px 20px;
+    background-color: #514332 !important;
+    border: 1px solid #7a6a58;
+    border-bottom-color: #2b2319;
+    border-right-color: #2b2319;
+    border-radius: 8px !important;
+    cursor: pointer;
+    position: relative;
+    top: 0;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2),
+                0 4px 0 #2b2319;
+    transition: all 0.1s ease-in-out;
+    color: #FFFFFF !important;
+    font-weight: bold;
+}
+
+.katalog-button:active {
+    top: 3px;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2),
+                0 1px 0 #2b2319;
+}

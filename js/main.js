@@ -17,16 +17,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // --- PŮVODNÍ KÓD: Přepínání záložek na detailu příběhu ---
+    // Tento kód je nyní obecnější a bude fungovat na více místech.
+    
+    // Přepínání hlavních pohledů (Detail příběhu, Katalog)
+    const viewTabs = document.querySelectorAll('.view-switcher .nav-tab');
+    const viewContents = document.querySelectorAll('.tab-content');
 
-    // Přepínání hlavních pohledů (Srovnání evangelistů / Srovnání překladů)
-    const tabs = document.querySelectorAll('.view-switcher .nav-tab');
-    const tabContents = document.querySelectorAll('.tab-content');
-
-    if (tabs.length > 0) {
-        tabs.forEach(tab => {
+    if (viewTabs.length > 0) {
+        viewTabs.forEach(tab => {
             tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('active'));
-                tabContents.forEach(c => c.classList.remove('active'));
+                // Skryjeme vše ve stejné skupině
+                viewTabs.forEach(t => t.classList.remove('active'));
+                viewContents.forEach(c => c.classList.remove('active'));
 
                 const targetId = tab.getAttribute('data-target');
                 const targetContent = document.getElementById(targetId);
@@ -39,11 +41,22 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Přepínání evangelistů v záložce "Srovnání překladů"
+    // Přepínání evangelistů (Detail příběhu, Katalog)
     const evangelistTabs = document.querySelectorAll('.evangelist-switcher .nav-tab');
-    const evangelistContents = document.querySelectorAll('.evangelist-translation-content');
+    const evangelistContents = document.querySelectorAll('.evangelist-translation-content, .evangelist-citation-content');
 
     if (evangelistTabs.length > 0) {
+        // Nejprve skryjeme všechny obsahy kromě prvního aktivního
+        let isFirstActiveFound = false;
+        evangelistContents.forEach(c => {
+            if (c.classList.contains('active')) {
+                if (isFirstActiveFound) {
+                    c.classList.remove('active');
+                }
+                isFirstActiveFound = true;
+            }
+        });
+        
         evangelistTabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 evangelistTabs.forEach(t => t.classList.remove('active'));

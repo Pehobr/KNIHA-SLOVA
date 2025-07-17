@@ -87,30 +87,32 @@ function child_theme_configurator_css() {
     // Podmíněné načítání stylů podle typu stránky
     if ( is_singular('evangelijni_pribeh') ) {
         // Načte styly pouze pro detail příběhu
-        wp_enqueue_style( 'kniha-slova-single-styles', get_stylesheet_directory_uri() . '/css/single-pribehu.css', array('chld_thm_cfg_child'), '1.0.0' );
+        wp_enqueue_style( 'kniha-slova-single-styles', get_stylesheet_directory_uri() . '/css/single-pribehu.css', array('chld_thm_cfg_child'), '1.0.1' );
     } elseif ( is_post_type_archive('evangelijni_pribeh') ) {
         // Načte styly pouze pro archiv příběhů
-        wp_enqueue_style( 'kniha-slova-archive-styles', get_stylesheet_directory_uri() . '/css/archiv-pribehu.css', array('chld_thm_cfg_child'), '1.0.0' );
+        wp_enqueue_style( 'kniha-slova-archive-styles', get_stylesheet_directory_uri() . '/css/archiv-pribehu.css', array('chld_thm_cfg_child'), '1.0.1' );
+    } elseif ( is_page_template('page-katalog.php') ) { // <<< PŘIDÁNO PRO KATALOG
+        // Načte styly pouze pro stránku katalogu
+        wp_enqueue_style( 'kniha-slova-katalog-styles', get_stylesheet_directory_uri() . '/css/katalog.css', array('chld_thm_cfg_child'), '1.0.1' );
     }
 }
 add_action( 'wp_enqueue_scripts', 'child_theme_configurator_css', 20 );
 
 function knihaslova_enqueue_scripts() {
-    // Načítání JS souboru na detailu i na archivu příběhů
-    if ( is_singular('evangelijni_pribeh') || is_post_type_archive('evangelijni_pribeh') ) {
-        wp_enqueue_script( 'kniha-slova-main-js', get_stylesheet_directory_uri() . '/js/main.js', array(), '1.0.2', true );
+    // Načítání JS souboru na detailu, archivu a katalogu příběhů
+    if ( is_singular('evangelijni_pribeh') || is_post_type_archive('evangelijni_pribeh') || is_page_template('page-katalog.php') ) { // <<< PŘIDÁNO PRO KATALOG
+        wp_enqueue_script( 'kniha-slova-main-js', get_stylesheet_directory_uri() . '/js/main.js', array(), '1.0.3', true );
     }
 }
 add_action( 'wp_enqueue_scripts', 'knihaslova_enqueue_scripts' );
 
 
 //======================================================================
-// 4. FUNKCE PRO KOMUNIKACI S GOOGLE SHEETS
+// 4. FUNKCE PRO ZPRACOVÁNÍ DAT (GOOGLE SHEETS A DALŠÍ)
 //======================================================================
 
 /**
  * Načte a zpracuje data z publikované Google Tabulky (CSV).
- * Tato verze správně zpracovává i buňky s více řádky.
  * @param string $sheet_url URL publikovaného CSV souboru.
  * @return array|false Pole dat nebo false při chybě.
  */
@@ -139,7 +141,7 @@ function get_data_from_google_sheet($sheet_url) {
     while (($row = fgetcsv($stream)) !== false) {
         if (count($header) === count($row)) {
             if (count(array_filter($row)) > 0) {
-                 $data[] = array_combine($header, $row);
+                $data[] = array_combine($header, $row);
             }
         }
     }
@@ -149,9 +151,9 @@ function get_data_from_google_sheet($sheet_url) {
 }
 
 /**
- * Získá všechny potřebné texty a citace pro daný příběh.
- * Upraveno o možnost vynuceného mazání transientů z administrace.
- * @param string $story_id Unikátní ID příběhu (např. 'jan-krtitel').
+ * Získá všechny potřebné texty a citace pro daný příběh z Google Sheets.
+ * Využívá transienty (dočasnou mezipaměť) pro zrychlení.
+ * @param string $story_id Unikátní ID příběhu (post slug).
  * @return array|null Komplexní pole s daty pro daný příběh nebo null.
  */
 function knihaslova_get_story_data($story_id) {
@@ -159,29 +161,25 @@ function knihaslova_get_story_data($story_id) {
         return null;
     }
 
-    // Získáme nastavení z administrace
     $dev_options = get_option('knihaslova_dev_options');
     $force_clear = isset($dev_options['force_clear_transients']) && $dev_options['force_clear_transients'] === 'on';
-
     $transient_key = 'knihaslova_story_' . $story_id;
 
-    // Pokud je volba aktivní, smažeme transient
     if ($force_clear) {
         delete_transient($transient_key);
         error_log('Kniha Slova Debug: Transient pro "' . $story_id . '" byl smazán na základě nastavení v administraci.');
     }
 
     $cached_data = get_transient($transient_key);
-
     if (false !== $cached_data) {
         return $cached_data;
     }
 
     $urls = [
-        'pribehy'       => 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSjUiTc1VHd8teOLlQF51n5PLw1Z7MffXrovWmjfuypO5qR0ZV-vOE1oEZ2fFn95RvjpToiwFepiMm0/pub?gid=0&single=true&output=csv',
-        'katolicky'     => 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSjUiTc1VHd8teOLlQF51n5PLw1Z7MffXrovWmjfuypO5qR0ZV-vOE1oEZ2fFn95RvjpToiwFepiMm0/pub?gid=581207951&single=true&output=csv',
-        'ekumenicky'    => 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSjUiTc1VHd8teOLlQF51n5PLw1Z7MffXrovWmjfuypO5qR0ZV-vOE1oEZ2fFn95RvjpToiwFepiMm0/pub?gid=1989356485&single=true&output=csv',
-        'jeruzalemsky'  => 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSjUiTc1VHd8teOLlQF51n5PLw1Z7MffXrovWmjfuypO5qR0ZV-vOE1oEZ2fFn95RvjpToiwFepiMm0/pub?gid=493482207&single=true&output=csv',
+        'pribehy'      => 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSjUiTc1VHd8teOLlQF51n5PLw1Z7MffXrovWmjfuypO5qR0ZV-vOE1oEZ2fFn95RvjpToiwFepiMm0/pub?gid=0&single=true&output=csv',
+        'katolicky'    => 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSjUiTc1VHd8teOLlQF51n5PLw1Z7MffXrovWmjfuypO5qR0ZV-vOE1oEZ2fFn95RvjpToiwFepiMm0/pub?gid=581207951&single=true&output=csv',
+        'ekumenicky'   => 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSjUiTc1VHd8teOLlQF51n5PLw1Z7MffXrovWmjfuypO5qR0ZV-vOE1oEZ2fFn95RvjpToiwFepiMm0/pub?gid=1989356485&single=true&output=csv',
+        'jeruzalemsky' => 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSjUiTc1VHd8teOLlQF51n5PLw1Z7MffXrovWmjfuypO5qR0ZV-vOE1oEZ2fFn95RvjpToiwFepiMm0/pub?gid=493482207&single=true&output=csv',
     ];
 
     $pribehy_data = get_data_from_google_sheet($urls['pribehy']);
@@ -218,6 +216,24 @@ function knihaslova_get_story_data($story_id) {
     return $final_data;
 }
 
+/**
+ * Převede biblickou citaci na číslo pro snadné řazení.
+ * Potřebné pro Katalog podle citací.
+ * @param string $citation Citace ve formátu "Mt 3,1-12".
+ * @return int Číselná hodnota pro řazení.
+ */
+function knihaslova_get_citation_sort_key($citation) {
+    if (preg_match('/(\d+),\s*(\d+)/', $citation, $matches)) {
+        $chapter = (int)$matches[1];
+        $verse_start = (int)$matches[2];
+        // Vytvoří unikátní číslo, kde kapitola má větší váhu
+        return $chapter * 1000 + $verse_start;
+    }
+    // Pokud se nepodaří parsovat, vrátí vysoké číslo, aby byla položka na konci
+    return 999999;
+}
+
+
 //======================================================================
 // 5. VÝVOJÁŘSKÁ SEKCE PRO SPRÁVU WEBU
 //======================================================================
@@ -242,7 +258,6 @@ add_action('admin_menu', 'knihaslova_add_admin_menu');
  * Vykreslí obsah stránky "Admin".
  */
 function knihaslova_admin_page_html() {
-    // Zkontroluje, zda má uživatel oprávnění
     if (!current_user_can('manage_options')) {
         return;
     }
@@ -251,11 +266,8 @@ function knihaslova_admin_page_html() {
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
         <form action="options.php" method="post">
             <?php
-            // Skrytá pole pro bezpečnost a funkčnost WordPressu
             settings_fields('knihaslova_admin_settings');
-            // Vykreslí všechny sekce a pole přidaná k této stránce
             do_settings_sections('kniha_slova_admin');
-            // Tlačítko pro uložení
             submit_button('Uložit nastavení');
             ?>
         </form>
@@ -264,27 +276,24 @@ function knihaslova_admin_page_html() {
 }
 
 /**
- * Registruje nastavení, sekce a pole.
+ * Registruje nastavení, sekce a pole pro admin stránku.
  */
 function knihaslova_settings_init() {
-    // Registruje skupinu nastavení
     register_setting('knihaslova_admin_settings', 'knihaslova_dev_options');
 
-    // Přidá sekci pro nastavení
     add_settings_section(
-        'knihaslova_dev_section', // ID sekce
-        'Vývojářské nástroje',    // Nadpis sekce
-        'knihaslova_dev_section_cb', // Callback pro popis sekce (může být prázdný)
-        'kniha_slova_admin'      // Slug stránky, kde se má sekce zobrazit
+        'knihaslova_dev_section',
+        'Vývojářské nástroje',
+        'knihaslova_dev_section_cb',
+        'kniha_slova_admin'
     );
 
-    // Přidá pole pro zapnutí/vypnutí mazání cache
     add_settings_field(
-        'force_clear_transients', // ID pole
-        'Vynutit smazání cache',   // Popisek pole
-        'knihaslova_force_clear_transients_cb', // Callback pro vykreslení pole
-        'kniha_slova_admin',      // Slug stránky
-        'knihaslova_dev_section'  // ID sekce, do které patří
+        'force_clear_transients',
+        'Vynutit smazání cache',
+        'knihaslova_force_clear_transients_cb',
+        'kniha_slova_admin',
+        'knihaslova_dev_section'
     );
 }
 add_action('admin_init', 'knihaslova_settings_init');
@@ -302,7 +311,6 @@ function knihaslova_dev_section_cb($args) {
  * Vykreslí checkbox pro volbu mazání transientů.
  */
 function knihaslova_force_clear_transients_cb() {
-    // Získá uložené hodnoty
     $options = get_option('knihaslova_dev_options');
     $checked = isset($options['force_clear_transients']) ? $options['force_clear_transients'] : 'off';
     ?>
@@ -320,4 +328,3 @@ function knihaslova_force_clear_transients_cb() {
     </p>
     <?php
 }
-
