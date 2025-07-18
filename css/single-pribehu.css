@@ -46,7 +46,7 @@
     display: flex; /* Vytvoří flexbox layout pro zarovnání položek vedle sebe. */
     justify-content: space-between; /* Rozmístí položky na opačné konce kontejneru. */
     align-items: center; /* Vertikálně vycentruje položky. */
-    margin-bottom: 7px; /* Mezera pod záhlavím. */
+    margin-bottom: 12px; /* Mezera pod záhlavím. */
     gap: 20px; /* Mezera mezi tlačítkem a nadpisem. */
     }
 } 
@@ -93,7 +93,7 @@
 @media screen and (max-width: 767px) {       
 .story-detail .view-switcher,
 .story-detail .evangelist-switcher {
-    margin-bottom: 7px;
+    margin-bottom: 12px;
     border-bottom: 2px solid #514332; /* Tmavá linka pod celou lištou záložek. */
     display: flex;
     justify-content: center; /* Vycentruje záložky jako skupinu doprostřed. */
@@ -220,7 +220,7 @@
     /* VÝRAZNÉ ZMENŠENÍ ZÁLOŽEK PRO MOBILNÍ ZOBRAZENÍ */
     /* Cílem je, aby se co nejvíce záložek vešlo na jeden řádek. */
     .story-detail .nav-tab {
-        padding: 0.3em 0.7em; /* Výrazně zmenšené boční odsazení. */
+        padding: 0.7em 0.7em; /* Výrazně zmenšené boční odsazení. */
         font-size: 14px;  /* Menší, pevná velikost písma pro lepší kontrolu. */
         font-weight: 600; /* Mírně tenčí písmo pro úsporu místa. */
     }
