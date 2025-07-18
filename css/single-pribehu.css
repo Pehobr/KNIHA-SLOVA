@@ -63,36 +63,35 @@
 
 /* === Přepínač záložek (tabů) === */
 
+/* Nový styl záložek inspirovaný souborem katalog.css */
 .story-detail .view-switcher,
 .story-detail .evangelist-switcher {
     margin-bottom: 25px;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
+    border-bottom: 2px solid #514332; /* Tmavá linka pod záložkami */
     display: flex;
+    justify-content: center; /* Vycentrování záložek */
     flex-wrap: wrap;
-    gap: 5px;
 }
 
-/* Vzhled neaktivní záložky */
+/* Vzhled záložky */
 .story-detail .nav-tab {
-    padding: 10px 15px;
-    border: 1px solid transparent;
+    background-color: transparent;
+    border: none;
+    padding: 0.8em 1.5em;
     cursor: pointer;
-    background-color: #b7a99a;
-    color: #ffffff;
-    margin-right: 0;
-    border-radius: 5px 5px 0 0;
-    opacity: 0.8;
+    font-size: 16px;
+    font-weight: 700;
+    color: #b7a99a; /* Výchozí barva písma */
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent; /* Skrytý spodní okraj */
+    margin-bottom: -2px; /* Překryje spodní okraj kontejneru */
 }
 
-/* Vzhled aktivní záložky */
-.story-detail .nav-tab.active {
-    border-color: #ddd;
-    border-bottom-color: white;
-    background-color: white;
-    font-weight: bold;
-    color: #333333;
-    opacity: 1;
+/* Aktivní stav a najetí myší na záložku */
+.story-detail .nav-tab.active,
+.story-detail .nav-tab:hover {
+    color: #f5f2eb; /* Barva aktivní/hover záložky */
+    border-bottom: 3px solid #f5f2eb; /* Zvýraznění aktivní/hover záložky */
 }
 
 
@@ -184,19 +183,14 @@
         display: none;
     }
 
-    /* Zajistíme, že nadpis zůstane na středu */
+    /* Vycentrování nadpisu na mobilu */
     .page-header-container {
-        justify-content: center;
-    }
-    
-    /* Vycentrování záložek na mobilu */
-    .story-detail .view-switcher {
         justify-content: center;
     }
 
     /* Snížení výšky a velikosti záložek na mobilu pro kompaktnější vzhled */
     .story-detail .nav-tab {
-        padding: 5px 10px; /* 5px nahoře/dole, 10px vlevo/vpravo */
+        padding: 0.8em 1em; /* Menší padding na mobilech, konzistentní s katalog.css */
         font-size: 0.9em;  /* Mírně zmenšíme písmo */
     }
 }
