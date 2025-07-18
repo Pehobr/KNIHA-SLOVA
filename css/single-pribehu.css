@@ -31,7 +31,7 @@
 }
 
 
-/* === Kontejner pro nadpis a tlačítko "Zpět" === */
+/* === Kontejner pro nadpis === */
 
 .page-header-container {
     display: flex; /* Vytvoří flexbox layout pro zarovnání položek vedle sebe. */
@@ -39,7 +39,17 @@
     align-items: center; /* Vertikálně vycentruje položky. */
     margin-bottom: 25px; /* Mezera pod záhlavím. */
     gap: 20px; /* Mezera mezi tlačítkem a nadpisem. */
-}
+} 
+
+@media screen and (max-width: 767px) {
+    .page-header-container {
+    display: flex; /* Vytvoří flexbox layout pro zarovnání položek vedle sebe. */
+    justify-content: space-between; /* Rozmístí položky na opačné konce kontejneru. */
+    align-items: center; /* Vertikálně vycentruje položky. */
+    margin-bottom: 7px; /* Mezera pod záhlavím. */
+    gap: 20px; /* Mezera mezi tlačítkem a nadpisem. */
+    }
+} 
 
 /* Nadpis stránky - vycentrování */
 .page-header-container .page-title {
@@ -79,6 +89,16 @@
     justify-content: center; /* Vycentruje záložky jako skupinu doprostřed. */
     flex-wrap: wrap; /* Umožní zalamování záložek na menších obrazovkách. */
 }
+
+@media screen and (max-width: 767px) {       
+.story-detail .view-switcher,
+.story-detail .evangelist-switcher {
+    margin-bottom: 7px;
+    border-bottom: 2px solid #514332; /* Tmavá linka pod celou lištou záložek. */
+    display: flex;
+    justify-content: center; /* Vycentruje záložky jako skupinu doprostřed. */
+    flex-wrap: wrap; /* Umožní zalamování záložek na menších obrazovkách. */
+} } 
 
 /* Vzhled jednotlivé záložky */
 .story-detail .nav-tab {
@@ -177,6 +197,11 @@
     color: #F78DA7;
 }
 
+/* Skrytí zkratek jmen evangelistů na desktopu (zobrazí se na mobilu) */
+.story-detail .evangelist-switcher .shortname {
+    display: none;
+}
+
 
 /* === MOBILNÍ ZOBRAZENÍ (šířka 767px a méně) === */
 
@@ -188,13 +213,24 @@
 
     /* Protože je tlačítko pryč, můžeme nadpis jednoduše vycentrovat. */
     .page-header-container {
-        justify-content: center;
+        justify-content: center; /* Vycentrování nadpisu. */
+        margin-bottom: 7px;      /* Snížení mezery pod nadpisem na mobilu. */
     }
 
-    /* Snížení velikosti záložek na mobilu pro kompaktnější vzhled. */
+    /* VÝRAZNÉ ZMENŠENÍ ZÁLOŽEK PRO MOBILNÍ ZOBRAZENÍ */
+    /* Cílem je, aby se co nejvíce záložek vešlo na jeden řádek. */
     .story-detail .nav-tab {
-        padding: 0.8em 1em; /* Menší boční odsazení. */
-        font-size: 0.9em;  /* Mírně menší písmo. */
+        padding: 0.3em 0.7em; /* Výrazně zmenšené boční odsazení. */
+        font-size: 14px;  /* Menší, pevná velikost písma pro lepší kontrolu. */
+        font-weight: 600; /* Mírně tenčí písmo pro úsporu místa. */
+    }
+
+    /* Pro záložky evangelistů zobrazíme na mobilu jen zkratky, abychom ušetřili místo. */
+    .story-detail .evangelist-switcher .fullname {
+        display: none;
+    }
+    .story-detail .evangelist-switcher .shortname {
+        display: inline;
     }
 }
 
