@@ -95,6 +95,9 @@ function child_theme_configurator_css() {
         // Načte styly pouze pro stránku katalogu
         wp_enqueue_style( 'kniha-slova-katalog-styles', get_stylesheet_directory_uri() . '/css/katalog.css', array('chld_thm_cfg_child'), '1.0.1' );
     }
+
+    // Správné načtení knihovny ikon Font Awesome
+    wp_enqueue_style( 'font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', array(), '4.7.0' );
 }
 add_action( 'wp_enqueue_scripts', 'child_theme_configurator_css', 20 );
 
