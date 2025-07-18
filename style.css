@@ -75,3 +75,14 @@ Updated: 2025-07-16 07:01:17
         padding-bottom: 60px;
     }
 }
+
+/* ==========================================================================
+   Úpravy pro detail příběhu
+   ========================================================================== */
+
+/*
+ * Přidání mezery pod nadpis evangelisty v záložce "Překlady".
+*/
+.single-evangelijni_pribeh #translations-view .evangelist-translation-content h4 {
+    margin-bottom: 12px;
+}

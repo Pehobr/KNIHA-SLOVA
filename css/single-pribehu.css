@@ -137,6 +137,34 @@
     margin-top: 0;
 }
 
+/* Přidání mezery mezi nadpisem překladu (např. "Katolický překlad") a textem */
+.single-evangelijni_pribeh #translations-view .grid-column h3 {
+    margin-bottom: 7px;
+}
+
+/* === Styly pro boxy s překlady === */
+
+/*
+ * Poznámka: Toto řešení cílí na boxy podle jejich pořadí (první, druhý, třetí).
+ * Je funkční, dokud je pořadí překladů vždy stejné.
+*/
+
+/* Modrá barva pro text Katolického překladu (první box) */
+.single-evangelijni_pribeh #translations-view .grid-column:nth-of-type(1) .text-content {
+    color: #8ED1FC; /* Světle modrá pro dobrou čitelnost */
+}
+
+/* Zelená barva pro text Ekumenického překladu (druhý box) */
+.single-evangelijni_pribeh #translations-view .grid-column:nth-of-type(2) .text-content {
+    color: #7bdcb5; /* Světle zeleno-tyrkysová pro dobrou čitelnost */
+}
+
+/* Červená barva pro text Jeruzalémského překladu (třetí box) */
+.single-evangelijni_pribeh #translations-view .grid-column:nth-of-type(3) .text-content {
+    color: #F78DA7; /* Světle červeno-růžová pro dobrou čitelnost */
+}
+
+
 
 /* === MOBILNÍ ZOBRAZENÍ (šířka 767px a méně) === */
 
