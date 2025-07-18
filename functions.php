@@ -88,11 +88,12 @@ function child_theme_configurator_css() {
     if ( is_singular('evangelijni_pribeh') ) {
         // Načte styly pouze pro detail příběhu
         wp_enqueue_style( 'kniha-slova-single-styles', get_stylesheet_directory_uri() . '/css/single-pribehu.css', array('chld_thm_cfg_child'), '1.0.1' );
-} elseif ( is_post_type_archive('evangelijni_pribeh') || is_page_template('template-pribehy.php') ) { // <<< PŘIDÁNO PRO ARCHIV
+    } elseif ( is_post_type_archive('evangelijni_pribeh') || is_page_template('template-pribehy.php') ) {
         // Načte styly pouze pro archiv příběhů
         wp_enqueue_style( 'kniha-slova-archive-styles', get_stylesheet_directory_uri() . '/css/archiv-pribehu.css', array('chld_thm_cfg_child'), '1.0.1' );
-    } elseif ( is_page_template('page-katalog.php') ) { // <<< PŘIDÁNO PRO KATALOG
+    } elseif ( is_page_template('page-katalog.php') ) {
         // Načte styly pouze pro stránku katalogu
+        wp_enqueue_style( 'kniha-slova-katalog-styles', get_stylesheet_directory_uri() . '/css/katalog.css', array('chld_thm_cfg_child'), '1.0.0' );
     }
 
     // Správné načtení knihovny ikon Font Awesome
@@ -101,9 +102,14 @@ function child_theme_configurator_css() {
 add_action( 'wp_enqueue_scripts', 'child_theme_configurator_css', 20 );
 
 function knihaslova_enqueue_scripts() {
-    // Načítání JS souboru na detailu, na archivu i na stránce se šablonou
+    // Načítání JS souboru na detailu, na archivu i na hlavní stránce příběhů
     if ( is_singular('evangelijni_pribeh') || is_post_type_archive('evangelijni_pribeh') || is_page_template('template-pribehy.php') ) {
-        wp_enqueue_script( 'kniha-slova-main-js', get_stylesheet_directory_uri() . '/js/main.js', array(), '1.0.3', true ); // Zvýšil jsem verzi pro jistotu
+        wp_enqueue_script( 'kniha-slova-main-js', get_stylesheet_directory_uri() . '/js/main.js', array(), '1.0.3', true );
+    }
+    
+    // Načítání JS souboru pro stránku katalogu
+    if ( is_page_template('page-katalog.php') ) {
+        wp_enqueue_script( 'kniha-slova-katalog-js', get_stylesheet_directory_uri() . '/js/katalog.js', array(), '1.0.0', true );
     }
 }
 add_action( 'wp_enqueue_scripts', 'knihaslova_enqueue_scripts' );

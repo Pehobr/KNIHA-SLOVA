@@ -1,0 +1,99 @@
+/* ==========================================================================
+   STYLY PRO STRÁNKU KATALOGU
+   ========================================================================== */
+
+/* Kontejnery pro přepínání záložek */
+.view-switcher, .evangelist-switcher {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.7em;
+    border-bottom: 2px solid #514332; /* Tmavá linka pod záložkami, jako na single-pribehu.css */
+    flex-wrap: wrap; /* Umožní zalamování na menších obrazovkách */
+}
+
+/* Tlačítka záložek (Podle názvu, Podle citací, Evangelisté) */
+.nav-tab {
+    background-color: transparent;
+    border: none;
+    padding: 0.8em 1.5em;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700; /* Tučné písmo */
+    color: #b7a99a; /* Výchozí barva písma, jako na single-pribehu.css */
+    transition: all 0.3s ease;
+    border-bottom: 3px solid transparent; /* Skrytý spodní okraj */
+    margin-bottom: -2px; /* Překryje spodní okraj kontejneru */
+}
+
+/* Aktivní stav a najetí myší na záložku */
+.nav-tab.active,
+.nav-tab:hover {
+    color: #f5f2eb; /* Barva aktivní/hover záložky, jako na single-pribehu.css */
+    border-bottom: 3px solid #f5f2eb; /* Zvýraznění aktivní/hover záložky */
+}
+
+/* Skrytí obsahu, který není aktivní */
+.tab-content, .evangelist-citation-content {
+    display: none;
+}
+
+/* Zobrazení aktivního obsahu */
+.tab-content.active, .evangelist-citation-content.active {
+    display: block;
+}
+
+/* Mřížka pro tlačítka s příběhy */
+.katalog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Mírně širší tlačítka */
+    gap: 1.5rem; /* Mezery mezi tlačítky, jako na archiv-pribehu.css */
+    margin-top: 2rem;
+}
+
+/* Vlastní tlačítka s názvy/citacemi */
+.katalog-button {
+    background: #514332; /* Tmavší hnědá, jako na archiv-pribehu.css */
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+    padding: 12px;
+    text-decoration: none;
+    text-align: center;
+    /* Písmo nastavené jako h3 */
+    font-family: var(--global-heading-font-family);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 19px;
+    line-height: 1.3;
+    color: #f5f2eb; /* Světlé písmo, jako na archiv-pribehu.css */
+}
+
+.katalog-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    color: #ffffff;
+}
+
+/* Responzivita pro přepínač evangelistů */
+.evangelist-switcher .shortname {
+    display: none; /* Skryje zkratky na velkých obrazovkách */
+}
+
+@media all and (max-width: 600px) {
+    .evangelist-switcher .fullname {
+        display: none; /* Skryje plná jména na mobilech */
+    }
+    .evangelist-switcher .shortname {
+        display: inline; /* Zobrazí zkratky na mobilech */
+    }
+    .nav-tab {
+        padding: 0.8em 1em; /* Menší padding na mobilech */
+    }
+    .katalog-grid {
+        grid-template-columns: 1fr 1fr; /* Dva sloupce na menších mobilech */
+    }
+}
