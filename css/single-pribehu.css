@@ -183,6 +183,12 @@
     .story-detail .view-switcher {
         justify-content: center;
     }
+
+    /* Snížení výšky a velikosti záložek na mobilu pro kompaktnější vzhled */
+    .story-detail .nav-tab {
+        padding: 5px 10px; /* 5px nahoře/dole, 10px vlevo/vpravo */
+        font-size: 0.9em;  /* Mírně zmenšíme písmo */
+    }
 }
 
 /* === Styly pro záložku Exegeze === */
