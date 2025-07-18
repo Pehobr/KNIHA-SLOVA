@@ -22,10 +22,6 @@ $parafraze_page = get_page_by_path($parafraze_page_slug, OBJECT, 'page');
         <main id="main" class="site-main">
             <div class="container story-detail">
 
-                <div class="back-to-archive-link">
-                    <a href="<?php echo get_post_type_archive_link('evangelijni_pribeh'); ?>" class="button-link-archive">&larr; Zpět na všechny příběhy</a>
-                </div>
-                
                 <div class="page-header-container">
                     <h1 class="page-title"><?php echo esc_html($story_data['info']['Nazev_pribehu'] ?? get_the_title()); ?></h1>
                 </div>
