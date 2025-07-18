@@ -39,7 +39,7 @@ get_header(); // Načte hlavičku
                         <article id="post-<?php the_ID(); ?>" <?php post_class( 'entry content-bg loop-entry' ); ?>>
                             <div class="entry-content-wrap">
                                 <header class="entry-header">
-                                    <h2 class="entry-title"><a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a></h2>
+                                    <h3 class="entry-title"><a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a></h3>
                                 </header>
                             </div>
                         </article>
