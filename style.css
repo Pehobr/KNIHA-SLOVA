@@ -151,3 +151,101 @@ Updated: 2025-07-16 07:01:17
         height: 1em;
     }
 }
+
+/* ==========================================================================
+   Vlastní levé vysouvací menu
+   ========================================================================== */
+
+/* Kontejner pro levé menu - ve výchozím stavu skrytý */
+.popup-drawer-left {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100000; /* Musí být nad vším ostatním */
+    visibility: hidden;
+}
+
+/* Vnitřní panel, který se vysouvá */
+.popup-drawer-left .drawer-inner-left {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 320px; /* Nebo jiná šířka podle potřeby */
+    background: #514332; /* Stejná barva jako pravé menu */
+    color: #fff;
+    transform: translateX(-100%); /* Skryté vlevo */
+    transition: transform .3s cubic-bezier(.77,.2,.05,1);
+    overflow-y: auto;
+    box-shadow: 0 0 2rem 0 rgba(0, 0, 0, .1);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Překryvná vrstva pro pozadí */
+.popup-drawer-left .drawer-overlay-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity .3s ease;
+    cursor: pointer;
+}
+
+/* --- Stavy při otevření menu --- */
+
+/* Když je menu aktivní (třída .left-menu-is-open se přidá na <body>) */
+body.left-menu-is-open .popup-drawer-left {
+    visibility: visible;
+}
+
+body.left-menu-is-open .popup-drawer-left .drawer-inner-left {
+    transform: translateX(0); /* Vysunutí do viditelné pozice */
+}
+
+body.left-menu-is-open .popup-drawer-left .drawer-overlay-left {
+    opacity: 1;
+}
+
+/* Zabrání scrollování stránky, když je menu otevřené */
+body.left-menu-is-open {
+    overflow: hidden;
+}
+
+/* --- Vnitřek levého menu --- */
+
+.drawer-header-left {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.drawer-toggle-left.close-drawer {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 0.5em;
+    line-height: 1;
+}
+
+/* Styly pro samotné navigační menu uvnitř */
+.left-mobile-navigation {
+    list-style: none;
+    margin: 0;
+    padding: 1em;
+}
+.left-mobile-navigation a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 0.8em 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}

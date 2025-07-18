@@ -1,20 +1,22 @@
 <?php
-// Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+/**
+ * Vlastní úpravy a funkce pro child šablonu Kniha Slova.
+ *
+ * @package Kadence Child
+ */
 
-//======================================================================
-// 6. VLASTNÍ ÚPRAVY A FUNKCE
-//======================================================================
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
- * Změní výchozí řazení pro archiv vlastního typu příspěvku "evangelijni_pribeh".
- * Místo abecedního řazení se bude řadit podle data od nejnovějšího.
- * @param object $query Hlavní WP_Query objekt.
+ * Registrace vlastních umístění pro menu.
  */
-function knihaslova_change_archive_order( $query ) {
-    if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'evangelijni_pribeh' ) ) {
-        $query->set( 'orderby', 'date' );
-        $query->set( 'order', 'DESC' );
-    }
+function kniha_slova_register_nav_menus() {
+	register_nav_menus( array(
+		'leve_mobilni_menu' => __( 'Levé mobilní menu', 'kadence-child' ),
+	) );
 }
-add_action( 'pre_get_posts', 'knihaslova_change_archive_order' );
+add_action( 'init', 'kniha_slova_register_nav_menus' );
+

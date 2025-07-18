@@ -30,13 +30,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     </span>
                 </span>`;
 
-            // Přidáme událost pro kliknutí
-            leftIconButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                // Zde přijde kód pro otevření levého menu
-                alert('Kliknuto na levou ikonu!');
-            });
-
             // Vložíme tlačítko do obalu a obal do levého kontejneru
             headerItemWrapper.appendChild(leftIconButton);
             leftContainer.appendChild(headerItemWrapper);
@@ -44,6 +37,51 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     // Zavoláme funkci pro přidání ikony
     addLeftMobileIcon();
+
+    // --- NOVĚ PŘIDÁNO: Logika pro ovládání levého menu ---
+    // (přesunuto z custom-left-menu.js pro zjednodušení)
+    const leftMenuToggleButton = document.querySelector('.custom-left-menu-icon');
+    const leftDrawer = document.getElementById('left-mobile-drawer');
+
+    // Spustíme logiku pouze pokud oba prvky existují
+    if (leftMenuToggleButton && leftDrawer) {
+        const leftCloseButton = leftDrawer.querySelector('.close-drawer');
+        const leftOverlay = leftDrawer.querySelector('.drawer-overlay-left');
+
+        const openLeftMenu = () => {
+            document.body.classList.add('left-menu-is-open');
+            leftMenuToggleButton.setAttribute('aria-expanded', 'true');
+            leftDrawer.setAttribute('aria-hidden', 'false');
+        };
+
+        const closeLeftMenu = () => {
+            document.body.classList.remove('left-menu-is-open');
+            leftMenuToggleButton.setAttribute('aria-expanded', 'false');
+            leftDrawer.setAttribute('aria-hidden', 'true');
+        };
+
+        leftMenuToggleButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (document.body.classList.contains('left-menu-is-open')) {
+                closeLeftMenu();
+            } else {
+                openLeftMenu();
+            }
+        });
+
+        if (leftCloseButton) {
+            leftCloseButton.addEventListener('click', (e) => { e.preventDefault(); closeLeftMenu(); });
+        }
+        if (leftOverlay) {
+            leftOverlay.addEventListener('click', (e) => { e.preventDefault(); closeLeftMenu(); });
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && document.body.classList.contains('left-menu-is-open')) {
+                closeLeftMenu();
+            }
+        });
+    }
     // --- KONEC PŘIDANÉ ČÁSTI ---
 
     // Logika pro proklikávací boxy na archivu
