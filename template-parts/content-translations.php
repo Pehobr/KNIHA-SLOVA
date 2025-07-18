@@ -49,7 +49,7 @@ foreach ($evangelists as $evangelist) {
             $evangelist_citation = $info[$evangelist . '_Citace'] ?? '';
         ?>
             <div id="evangelist-<?php echo strtolower($evangelist); ?>" class="evangelist-translation-content <?php echo $is_active ? 'active' : ''; ?>">
-                <h4>Evangelista: <?php echo esc_html($display_names[$evangelist]); // Zobrazení jména s diakritikou ?> <span>(<?php echo $evangelist_citation; ?>)</span></h4>
+                <h4><?php echo esc_html($display_names[$evangelist]); // Zobrazení jména s diakritikou ?> <span>(<?php echo $evangelist_citation; ?>)</span></h4>
                 <div class="comparison-grid">
                     <div class="grid-column">
                         <h3>Katolický překlad</h3>

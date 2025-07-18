@@ -42,7 +42,7 @@ foreach ($evangelists as $key => $evangelist) {
                 
                 <?php if (!empty($katolicky_text)): ?>
                     <div class="exegesis-base-text">
-                        <h4>Katolický překlad <span>(<?php echo esc_html($katolicky_citace); ?>)</span></h4>
+                        <h4><?php echo esc_html($katolicky_citace); ?></h4>
                         <p><em><?php echo nl2br(esc_html($katolicky_text)); ?></em></p>
                     </div>
                 <?php endif; ?>
