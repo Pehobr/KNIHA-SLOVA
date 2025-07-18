@@ -77,62 +77,6 @@ Updated: 2025-07-16 07:01:17
 }
 
 /* ==========================================================================
-   Fixní hlavička pro všechna zařízení (PC, tablet, mobil)
-   ========================================================================== */
-
-/* Krok 1: Nastavíme hlavičku jako fixní */
-#masthead {
-    position: fixed !important; /* !important zajistí přepsání původních stylů */
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 999;
-    background-color: #f5f2eb; /* Zajistí, že obsah nebude pod hlavičkou prosvítat */
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1); /* Jemný stín pro vizuální oddělení */
-}
-
-/* Krok 2: Vytvoříme prostor pro fixní hlavičku */
-/* Používáme CSS proměnnou, abyste mohli snadno změnit výšku na jednom místě. */
-:root {
-    --header-height-desktop: 50px; /* Skutečná výška hlavičky na PC dle šablony Kadence */
-    --header-height-mobile: 44px;  /* Skutečná výška hlavičky na mobilu dle šablony Kadence */
-}
-
-body {
-    /* Přidáme odsazení shora o výšku hlavičky */
-    padding-top: var(--header-height-desktop);
-}
-
-@media (max-width: 767px) {
-    body {
-        padding-top: var(--header-height-mobile);
-    }
-}
-
-/* Krok 3: Zohledníme WordPress admin lištu pro přihlášené uživatele */
-/* Toto je potřeba ponechat responzivní, protože samotná admin lišta mění výšku */
-
-/* Pro mobily (šířka < 783px) je admin lišta vysoká 46px */
-@media (max-width: 782px) {
-    body.admin-bar #masthead {
-        top: 46px;
-    }
-    body.admin-bar {
-        padding-top: calc(var(--header-height-mobile) + 46px);
-    }
-}
-
-/* Pro desktopy a tablety (šířka >= 783px) je admin lišta vysoká 32px */
-@media (min-width: 783px) {
-    body.admin-bar #masthead {
-        top: 32px;
-    }
-    body.admin-bar {
-        padding-top: calc(var(--header-height-desktop) + 32px);
-    }
-}
-
-/* ==========================================================================
    Oprava mezer na specifických stránkách
    ========================================================================== */
 
