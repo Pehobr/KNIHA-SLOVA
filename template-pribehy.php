@@ -26,8 +26,8 @@ get_header(); // Načte hlavičku
                 $args = array(
                     'post_type' => 'evangelijni_pribeh',
                     'posts_per_page' => -1, // Zobrazit všechny
-                    'orderby' => 'title',
-                    'order' => 'ASC',
+                    'orderby' => 'date', // Řazení podle data
+                    'order' => 'DESC',   // Od nejnovějšího po nejstarší
                 );
                 $pribehy_query = new WP_Query( $args );
 
@@ -54,6 +54,8 @@ get_header(); // Načte hlavičku
                 ?>
             </div>
         </main>
-    </div></div><?php
+        <?php get_sidebar(); // Načte postranní panel ?>
+    </div><!-- .content-container -->
+</div><!-- #primary --><?php
 get_footer(); // Načte patičku
 ?>

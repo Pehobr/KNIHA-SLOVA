@@ -21,19 +21,6 @@
 }
 
 
-/* === Skrytí postranního panelu a roztažení obsahu === */
-
-.post-type-archive-evangelijni_pribeh #secondary,
-.page-template-template-pribehy-php #secondary {
-    display: none !important;
-}
-
-.post-type-archive-evangelijni_pribeh .content-container,
-.page-template-template-pribehy-php .content-container {
-    grid-template-columns: 1fr !important;
-}
-
-
 /* === Styly pro boxy s příběhy (jako prostorová tlačítka) === */
 
 .post-type-archive-evangelijni_pribeh .entry.loop-entry,

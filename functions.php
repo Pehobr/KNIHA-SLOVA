@@ -329,5 +329,22 @@ function knihaslova_force_clear_transients_cb() {
     <p class="description">
         <strong>Varování:</strong> Tuto volbu zapínejte pouze dočasně pro vývoj a ladění. Ponechání této volby aktivní může výrazně zpomalit web.
     </p>
-    <?php
+    <?php 
 }
+
+//======================================================================
+// 6. VLASTNÍ ÚPRAVY A FUNKCE
+//======================================================================
+
+/**
+ * Změní výchozí řazení pro archiv vlastního typu příspěvku "evangelijni_pribeh".
+ * Místo abecedního řazení se bude řadit podle data od nejnovějšího.
+ * @param object $query Hlavní WP_Query objekt.
+ */
+function knihaslova_change_archive_order( $query ) {
+    if ( ! is_admin() && $query->is_main_query() && is_post_type_archive( 'evangelijni_pribeh' ) ) {
+        $query->set( 'orderby', 'date' );
+        $query->set( 'order', 'DESC' );
+    }
+}
+add_action( 'pre_get_posts', 'knihaslova_change_archive_order' );
