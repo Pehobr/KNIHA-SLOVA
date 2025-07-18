@@ -11,6 +11,10 @@ $comparison_page = get_page_by_path($comparison_page_slug, OBJECT, 'page');
 // --- PŘIDÁNO: Načtení stránky pro Podcast ---
 $podcast_page_slug = $post_slug . '-podcast';
 $podcast_page = get_page_by_path($podcast_page_slug, OBJECT, 'page');
+
+// --- PŘIDÁNO: Načtení stránky pro Parafrázi ---
+$parafraze_page_slug = $post_slug . '-parafraze';
+$parafraze_page = get_page_by_path($parafraze_page_slug, OBJECT, 'page');
 ?>
 
 <div id="primary" class="content-area">
@@ -27,18 +31,23 @@ $podcast_page = get_page_by_path($podcast_page_slug, OBJECT, 'page');
                 </div>
 
                 <div class="view-switcher">
-                    <button class="nav-tab active" data-target="evangelists-view">Texty evangelistů</button>
-                    <button class="nav-tab" data-target="translations-view">Srovnání překladů</button>
-                    <button class="nav-tab" data-target="analysis-view">Textová exegeze</button>
-                    <button class="nav-tab" data-target="spiritual-view">Duchovní výklad</button>
+                    <button class="nav-tab active" data-target="evangelists-view">Evangelisté</button>
+                    <button class="nav-tab" data-target="translations-view">Překlady</button>
+                    <button class="nav-tab" data-target="analysis-view">Exegeze</button>
+                    <button class="nav-tab" data-target="spiritual-view">Výklad</button>
 
                     <?php if ($comparison_page): ?>
-                        <button class="nav-tab" data-target="text-comparison-view">SHRNUTÍ</button>
+                        <button class="nav-tab" data-target="text-comparison-view">Srovnání</button>
+                    <?php endif; ?>
+
+                    <?php // --- PŘIDÁNO: Tlačítko pro Parafrázi --- ?>
+                    <?php if ($parafraze_page): ?>
+                        <button class="nav-tab" data-target="parafraze-view">Spojení</button>
                     <?php endif; ?>
                     
                     <?php // --- PŘIDÁNO: Tlačítko pro AI Podcast --- ?>
                     <?php if ($podcast_page): ?>
-                        <button class="nav-tab" data-target="podcast-view">AI podcast</button>
+                        <button class="nav-tab" data-target="podcast-view">Podcast</button>
                     <?php endif; ?>
                 </div>
 
@@ -70,6 +79,15 @@ $podcast_page = get_page_by_path($podcast_page_slug, OBJECT, 'page');
                 <div id="text-comparison-view" class="tab-content">
                     <div class="analysis-content" style="padding-top: 20px;">
                         <?php echo apply_filters('the_content', $comparison_page->post_content); ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <?php // --- PŘIDÁNO: Kontejner pro Parafrázi --- ?>
+                <?php if ($parafraze_page): ?>
+                <div id="parafraze-view" class="tab-content">
+                    <div class="analysis-content" style="padding-top: 20px;">
+                        <?php echo apply_filters('the_content', $parafraze_page->post_content); ?>
                     </div>
                 </div>
                 <?php endif; ?>
