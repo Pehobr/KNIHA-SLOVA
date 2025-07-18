@@ -96,3 +96,39 @@
         row-gap: 15px;
     }
 }
+
+/* ==========================================================================
+   Specifické úpravy layoutu a obsahu tlačítek
+   ========================================================================== */
+
+/* --- Úpravy pro stránku s šablonou "Archiv příběhů" --- */
+
+/* Odstranění horní mezery nad obsahem z editoru */
+.page-template-template-pribehy-php .site-main > *:first-child {
+    margin-top: 0;
+}
+
+/* Snížení mezery pod obsahem z editoru */
+.page-template-template-pribehy-php .entry-content {
+    margin-bottom: 25px;
+}
+
+
+/* --- Úpravy pro tlačítka na obou typech stránek --- */
+
+/*
+ * Úprava vnitřního odsazení (padding) pro vertikální vycentrování textu.
+*/
+.post-type-archive-evangelijni_pribeh .loop-entry .entry-content-wrap,
+.page-template-template-pribehy-php .loop-entry .entry-content-wrap {
+    padding-top: 12px;
+    padding-bottom: 0px;
+}
+
+/*
+ * Horizontální vycentrování textu uvnitř tlačítek.
+*/
+.post-type-archive-evangelijni_pribeh .loop-entry .entry-title,
+.page-template-template-pribehy-php .loop-entry .entry-title {
+    text-align: center;
+}

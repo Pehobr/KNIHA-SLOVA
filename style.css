@@ -75,20 +75,3 @@ Updated: 2025-07-16 07:01:17
         padding-bottom: 60px;
     }
 }
-
-/* ==========================================================================
-   Oprava mezer na specifických stránkách
-   ========================================================================== */
-
-/* Odstranění horní mezery na stránce s šablonou "Archiv příběhů" */
-.page-template-template-pribehy .site-main > *:first-child {
-    margin-top: 0;
-}
-
-/* 
- * Snížení velké mezery mezi obsahem zadaným v editoru
- * a samotnou mřížkou příběhů na stránce "Archiv příběhů".
-*/
-.page-template-template-pribehy .entry-content {
-    margin-bottom: 25px; /* Výchozí mezera je často příliš velká, zde ji zmenšujeme */
-}
