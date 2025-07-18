@@ -108,6 +108,16 @@
     display: block;
 }
 
+/* === Obsah načítaný ze stránek (Srovnání, Spojení) === */
+
+/*
+ * Snížení mezery mezi záložkami a obsahem pro záložky,
+ * které načítají obsah ze samostatné stránky.
+*/
+.story-detail .analysis-content {
+    padding-top: 0px;
+}
+
 .comparison-grid {
     display: flex;
     flex-wrap: wrap;
@@ -224,6 +234,16 @@
 .exegesis-base-text p {
     margin-bottom: 0;
 }
+
+/* === Úprava mezer v textových blocích (Exegeze, Výklad, atd.) === */
+
+/* Snížení mezery pod odstavci pro lepší čitelnost */
+.story-detail .analysis-content p,
+.story-detail .exegesis-main-content p,
+.story-detail .spiritual-main-content p {
+    margin-bottom: 0.8em; /* Výchozí bývá ~1.5em, toto je zhruba polovina */
+}
+
 
 /* Styly pro záložku Duchovní výklad */
 .spiritual-switcher {

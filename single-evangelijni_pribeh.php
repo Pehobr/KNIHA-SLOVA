@@ -73,7 +73,7 @@ $parafraze_page = get_page_by_path($parafraze_page_slug, OBJECT, 'page');
 
                 <?php if ($comparison_page): ?>
                 <div id="text-comparison-view" class="tab-content">
-                    <div class="analysis-content" style="padding-top: 20px;">
+                    <div class="analysis-content">
                         <?php echo apply_filters('the_content', $comparison_page->post_content); ?>
                     </div>
                 </div>
@@ -82,7 +82,7 @@ $parafraze_page = get_page_by_path($parafraze_page_slug, OBJECT, 'page');
                 <?php // --- PŘIDÁNO: Kontejner pro Parafrázi --- ?>
                 <?php if ($parafraze_page): ?>
                 <div id="parafraze-view" class="tab-content">
-                    <div class="analysis-content" style="padding-top: 20px;">
+                    <div class="analysis-content">
                         <?php echo apply_filters('the_content', $parafraze_page->post_content); ?>
                     </div>
                 </div>
