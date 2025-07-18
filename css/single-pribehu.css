@@ -1,24 +1,30 @@
 /* ==========================================================================
    Finální styly pro detail příběhu - Kniha Slova
+   Tento soubor definuje vzhled stránky jednoho konkrétního biblického příběhu.
    ========================================================================== */
 
 /* === KLÍČOVÁ ÚPRAVA: Roztažení hlavního kontejneru na PC a tabletu === */
+/* Na zařízeních s šířkou 768px a více (tablety, desktopy) */
 @media (min-width: 768px) {
+    /* Cílíme na hlavní obsahový kontejner specificky na stránce detailu příběhu. */
     .single-evangelijni_pribeh .content-container.site-container {
+        /* Přepíšeme výchozí omezení šířky a roztáhneme obsah na 100%.
+           Je to nutné pro správné zobrazení mřížky s porovnáním překladů. */
         max-width: 100%;
     }
 }
 
 /* === Základní layout a odsazení === */
 
-/* Zmenšení mezery NAD hlavním nadpisem na PC */
+/* Na velkých obrazovkách (1025px a více) */
 @media (min-width: 1025px) {
+    /* Zmenšíme horní mezeru nad obsahem, aby stránka nepůsobila zbytečně prázdně. */
     .single-evangelijni_pribeh .content-area {
-        margin-top: 2rem !important;
+        margin-top: 2rem !important; /* !important je zde pro přepsání silnějšího pravidla ze šablony. */
     }
 }
 
-/* Odsazení celého obsahu od bočních okrajů */
+/* Odsazení celého obsahu od bočních okrajů pro lepší čitelnost. */
 .story-detail {
     padding-left: 7px;
     padding-right: 7px;
@@ -28,104 +34,104 @@
 /* === Kontejner pro nadpis a tlačítko "Zpět" === */
 
 .page-header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    gap: 20px;
+    display: flex; /* Vytvoří flexbox layout pro zarovnání položek vedle sebe. */
+    justify-content: space-between; /* Rozmístí položky na opačné konce kontejneru. */
+    align-items: center; /* Vertikálně vycentruje položky. */
+    margin-bottom: 25px; /* Mezera pod záhlavím. */
+    gap: 20px; /* Mezera mezi tlačítkem a nadpisem. */
 }
 
 /* Nadpis stránky - vycentrování */
 .page-header-container .page-title {
-    flex-grow: 1;
-    text-align: center;
-    margin: 0;
+    flex-grow: 1; /* Nadpis zabere všechen dostupný prostor, což ho udrží na středu. */
+    text-align: center; /* Vycentruje text nadpisu. */
+    margin: 0; /* Odstraní výchozí margin nadpisu. */
 }
 
 /* Tlačítko "Zpět na všechny příběhy" */
 .page-header-container .button-link-archive {
     display: inline-block;
     padding: 8px 15px;
-    background-color: #514332;
-    color: #f5f2eb;
+    background-color: #514332; /* Tmavě hnědá barva pozadí. */
+    color: #f5f2eb; /* Světlá barva textu. */
     border: 1px solid #b7a99a;
-    border-radius: 5px;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background-color 0.3s, color 0.3s;
+    border-radius: 5px; /* Zaoblené rohy. */
+    text-decoration: none; /* Odstraní podtržení odkazu. */
+    white-space: nowrap; /* Zabrání zalomení textu v tlačítku. */
+    transition: background-color 0.3s, color 0.3s; /* Plynulý přechod při změně stavu. */
 }
 
+/* Efekt při najetí myší na tlačítko "Zpět" */
 .page-header-container .button-link-archive:hover {
-    background-color: #b7a99a;
-    color: #3e2f1c;
+    background-color: #b7a99a; /* Změna barvy pozadí. */
+    color: #3e2f1c; /* Změna barvy textu pro kontrast. */
 }
 
 
-/* === Přepínač záložek (tabů) === */
+/* === Přepínač záložek (tabů) - NOVÝ VZDUŠNÝ STYL === */
 
-/* Nový styl záložek inspirovaný souborem katalog.css */
+/* Kontejner pro hlavní záložky (Srovnání, Exegeze...) a záložky evangelistů. */
 .story-detail .view-switcher,
 .story-detail .evangelist-switcher {
     margin-bottom: 25px;
-    border-bottom: 2px solid #514332; /* Tmavá linka pod záložkami */
+    border-bottom: 2px solid #514332; /* Tmavá linka pod celou lištou záložek. */
     display: flex;
-    justify-content: center; /* Vycentrování záložek */
-    flex-wrap: wrap;
+    justify-content: center; /* Vycentruje záložky jako skupinu doprostřed. */
+    flex-wrap: wrap; /* Umožní zalamování záložek na menších obrazovkách. */
 }
 
-/* Vzhled záložky */
+/* Vzhled jednotlivé záložky */
 .story-detail .nav-tab {
-    background-color: transparent;
-    border: none;
+    background-color: transparent; /* Průhledné pozadí. */
+    border: none; /* Žádné ohraničení. */
     padding: 0.8em 1.5em;
     cursor: pointer;
     font-size: 16px;
-    font-weight: 700;
-    color: #b7a99a; /* Výchozí barva písma */
-    transition: all 0.3s ease;
-    border-bottom: 3px solid transparent; /* Skrytý spodní okraj */
-    margin-bottom: -2px; /* Překryje spodní okraj kontejneru */
+    font-weight: 700; /* Tučné písmo. */
+    color: #b7a99a; /* Výchozí, méně výrazná barva písma. */
+    transition: all 0.3s ease; /* Plynulý přechod pro všechny vlastnosti. */
+    border-bottom: 3px solid transparent; /* "Neviditelný" spodní okraj, který se zviditelní při :hover a .active. */
+    margin-bottom: -2px; /* Trik: posune záložku o 2px dolů, aby její okraj překryl okraj kontejneru. */
 }
 
 /* Aktivní stav a najetí myší na záložku */
 .story-detail .nav-tab.active,
 .story-detail .nav-tab:hover {
-    color: #f5f2eb; /* Barva aktivní/hover záložky */
-    border-bottom: 3px solid #f5f2eb; /* Zvýraznění aktivní/hover záložky */
+    color: #f5f2eb; /* Zvýraznění textu na světlou barvu. */
+    border-bottom-color: #f5f2eb; /* Zviditelnění spodního okraje změnou barvy z transparentní na světlou. */
 }
 
 
-/* === Mřížka pro porovnání === */
+/* === Mřížka pro porovnání a obsah záložek === */
 
+/* Skryje veškerý obsah záložek ve výchozím stavu. */
 .tab-content,
 .evangelist-translation-content {
     display: none;
 }
 
+/* Zobrazí pouze obsah té záložky, která má třídu .active (přidává se pomocí JavaScriptu). */
 .tab-content.active,
 .evangelist-translation-content.active {
     display: block;
 }
 
-/* === Obsah načítaný ze stránek (Srovnání, Spojení) === */
-
-/*
- * Snížení mezery mezi záložkami a obsahem pro záložky,
- * které načítají obsah ze samostatné stránky.
-*/
+/* Snížení mezery mezi záložkami a obsahem, který se načítá ze samostatné stránky. */
 .story-detail .analysis-content {
     padding-top: 0px;
 }
 
+/* Kontejner pro sloupce s překlady. */
 .comparison-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    display: flex; /* Zobrazí sloupce vedle sebe. */
+    flex-wrap: wrap; /* Umožní zalamování sloupců pod sebe na menších obrazovkách. */
+    gap: 20px; /* Mezera mezi sloupci. */
 }
 
+/* Jednotlivý sloupec v mřížce. */
 .grid-column {
-    flex: 1;
-    min-width: 250px;
+    flex: 1; /* Sloupce se rovnoměrně roztáhnou a vyplní dostupnou šířku. */
+    min-width: 250px; /* Minimální šířka, pod kterou se sloupec zalomí. */
     border: 1px solid #eee;
     padding: 15px;
     border-radius: 5px;
@@ -135,10 +141,11 @@
     margin-top: 0;
 }
 
+/* Styl pro citace pod nadpisem sloupce. */
 .grid-column .citation,
 .evangelist-translation-content h4 span {
     font-size: 0.9em;
-    color: #EDF2F7;
+    color: #EDF2F7; /* Světlá barva pro dobrou čitelnost na tmavém pozadí. */
     font-style: italic;
 }
 
@@ -146,78 +153,78 @@
     margin-top: 0;
 }
 
-/* Přidání mezery mezi nadpisem překladu (např. "Katolický překlad") a textem */
+/* Přidání malé mezery mezi nadpisem překladu (např. "Katolický překlad") a samotným textem. */
 .single-evangelijni_pribeh #translations-view .grid-column h3 {
     margin-bottom: 7px;
 }
 
-/* === Styly pro boxy s překlady === */
+/* === Styly pro boxy s překlady (barevné odlišení textu) === */
+/* Poznámka: Toto řešení cílí na boxy podle jejich pořadí (první, druhý, třetí).
+   Je funkční, dokud je pořadí překladů vždy stejné. Spolehlivější by bylo přidání tříd. */
 
-/*
- * Poznámka: Toto řešení cílí na boxy podle jejich pořadí (první, druhý, třetí).
- * Je funkční, dokud je pořadí překladů vždy stejné.
-*/
-
-/* Modrá barva pro text Katolického překladu (první box) */
+/* Modrá barva pro text Katolického překladu (první sloupec v mřížce). */
 .single-evangelijni_pribeh #translations-view .grid-column:nth-of-type(1) .text-content {
-    color: #8ED1FC; /* Světle modrá pro dobrou čitelnost */
+    color: #8ED1FC;
 }
 
-/* Zelená barva pro text Ekumenického překladu (druhý box) */
+/* Zelená barva pro text Ekumenického překladu (druhý sloupec). */
 .single-evangelijni_pribeh #translations-view .grid-column:nth-of-type(2) .text-content {
-    color: #7bdcb5; /* Světle zeleno-tyrkysová pro dobrou čitelnost */
+    color: #7bdcb5;
 }
 
-/* Červená barva pro text Jeruzalémského překladu (třetí box) */
+/* Červená barva pro text Jeruzalémského překladu (třetí sloupec). */
 .single-evangelijni_pribeh #translations-view .grid-column:nth-of-type(3) .text-content {
-    color: #F78DA7; /* Světle červeno-růžová pro dobrou čitelnost */
+    color: #F78DA7;
 }
-
 
 
 /* === MOBILNÍ ZOBRAZENÍ (šířka 767px a méně) === */
 
 @media (max-width: 767px) {
-    /* Skryjeme tlačítko "Zpět" */
+    /* Skryjeme tlačítko "Zpět", které na mobilu zabírá zbytečně místo. */
     .page-header-container .back-to-archive-link {
         display: none;
     }
 
-    /* Vycentrování nadpisu na mobilu */
+    /* Protože je tlačítko pryč, můžeme nadpis jednoduše vycentrovat. */
     .page-header-container {
         justify-content: center;
     }
 
-    /* Snížení výšky a velikosti záložek na mobilu pro kompaktnější vzhled */
+    /* Snížení velikosti záložek na mobilu pro kompaktnější vzhled. */
     .story-detail .nav-tab {
-        padding: 0.8em 1em; /* Menší padding na mobilech, konzistentní s katalog.css */
-        font-size: 0.9em;  /* Mírně zmenšíme písmo */
+        padding: 0.8em 1em; /* Menší boční odsazení. */
+        font-size: 0.9em;  /* Mírně menší písmo. */
     }
 }
 
 /* === Styly pro záložku Exegeze === */
 
+/* Kontejner pro vnořené záložky v Exegezi. */
 .exegesis-switcher {
     margin-left: 20px;
     margin-bottom: 20px;
 }
 
+/* Skrytí obsahu vnořených záložek. */
 .exegesis-content {
     display: none;
 }
 
+/* Zobrazení aktivního obsahu vnořené záložky. */
 .exegesis-content.active {
     display: block;
 }
 
+/* Styl pro zvýrazněný box se základním textem v Exegezi. */
 .exegesis-base-text {
-    background-color: #d8d5d1; /* <<< TUTO HODNOTU JSEM ZMĚNIL */
-    border-left: 3px solid #514332; /* Tmavší ohraničení pro kontrast */
+    background-color: #d8d5d1;
+    border-left: 3px solid #514332; /* Tmavší ohraničení pro kontrast. */
     padding: 15px 20px;
     margin-bottom: 25px;
     font-size: 0.95em;
-    color: #3e2f1c; /* Tmavší text pro lepší čitelnost */
-    border-radius: 5px; /* Zaoblení rohů, stejné jako u záložek */
+    color: #3e2f1c; /* Tmavší text pro lepší čitelnost. */
+    border-radius: 5px;
 }
 
 .exegesis-base-text h4 {
@@ -231,15 +238,15 @@
 
 /* === Úprava mezer v textových blocích (Exegeze, Výklad, atd.) === */
 
-/* Snížení mezery pod odstavci pro lepší čitelnost */
+/* Snížení mezery pod odstavci pro lepší čitelnost a kompaktnost textu. */
 .story-detail .analysis-content p,
 .story-detail .exegesis-main-content p,
 .story-detail .spiritual-main-content p {
-    margin-bottom: 0.8em; /* Výchozí bývá ~1.5em, toto je zhruba polovina */
+    margin-bottom: 0.8em;
 }
 
 
-/* Styly pro záložku Duchovní výklad */
+/* === Styly pro záložku Duchovní výklad === */
 .spiritual-switcher {
     margin-left: 20px;
     margin-bottom: 20px;
@@ -255,27 +262,30 @@
 
 /* === Styly pro AI Audio Přehrávač === */
 
+/* Kontejner pro celý přehrávač, přidává odsazení. */
 .podcast-player-container {
     padding: 30px 15px;
 }
 
+/* Hlavní kontejner přehrávače. */
 .ai-audio-player {
     display: flex;
-    align-items: center;
-    gap: 15px;
-    background-color: #f5f2eb;
-    border-radius: 50px;
+    align-items: center; /* Vertikální zarovnání všech prvků. */
+    gap: 15px; /* Mezery mezi tlačítkem, lištou a časem. */
+    background-color: #f5f2eb; /* Světlé pozadí. */
+    border-radius: 50px; /* Vytvoří tvar pilulky. */
     padding: 8px 15px;
-    max-width: 450px;
-    margin: 0 auto;
+    max-width: 450px; /* Omezí maximální šířku. */
+    margin: 0 auto; /* Vycentruje přehrávač na stránce. */
     border: 1px solid #d8d5d1;
 }
 
+/* Tlačítko Play/Pause. */
 .ai-audio-player .play-pause-btn {
     background-color: #514332;
     color: #ffffff;
     border: none;
-    border-radius: 50%;
+    border-radius: 50%; /* Dokonale kulaté tlačítko. */
     width: 40px;
     height: 40px;
     display: flex;
@@ -283,38 +293,42 @@
     align-items: center;
     cursor: pointer;
     transition: background-color 0.3s;
-    flex-shrink: 0; /* Zabrání zmenšení tlačítka */
+    flex-shrink: 0; /* Zabrání zmenšení tlačítka, pokud by nebylo místo. */
 }
 
 .ai-audio-player .play-pause-btn:hover {
-    background-color: #3e2f1c;
+    background-color: #3e2f1c; /* Ztmavnutí při najetí myší. */
 }
 
+/* Ikona uvnitř tlačítka. */
 .ai-audio-player .play-pause-btn .fa {
     font-size: 16px;
     line-height: 1;
 }
 
+/* Vnější kontejner pro progress bar (šedé pozadí). */
 .ai-audio-player .progress-bar-wrapper {
-    flex-grow: 1;
+    flex-grow: 1; /* Zabere všechen dostupný prostor. */
     background-color: #d8d5d1;
     height: 8px;
     border-radius: 4px;
     cursor: pointer;
-    overflow: hidden; /* Důležité pro zaoblení vnitřního baru */
+    overflow: hidden; /* Důležité: zajistí, že vnitřní barevná lišta bude mít také zaoblené rohy. */
 }
 
+/* Vnitřní barevná lišta, která ukazuje postup. */
 .ai-audio-player .progress-bar {
     background-color: #b7a99a;
     height: 100%;
-    width: 0%;
+    width: 0%; /* Šířka se dynamicky mění pomocí JavaScriptu. */
     border-radius: 4px;
-    transition: width 0.1s linear;
+    transition: width 0.1s linear; /* Plynulý, ale rychlý přechod šířky. */
 }
 
+/* Zobrazení času. */
 .ai-audio-player .time-display {
     font-size: 0.9em;
     color: #3e2f1c;
-    font-family: monospace; /* Zajistí konzistentní šířku znaků */
-    flex-shrink: 0; /* Zabrání zmenšení času */
+    font-family: monospace; /* Zajistí, že číslice mají stejnou šířku a čas "neposkakuje". */
+    flex-shrink: 0; /* Zabrání zmenšení časového údaje. */
 }
