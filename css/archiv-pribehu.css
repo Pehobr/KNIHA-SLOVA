@@ -80,8 +80,8 @@
     /* Přidání bočního odsazení na mobilu pro lepší čitelnost */
     .post-type-archive-evangelijni_pribeh .site-main,
     .page-template-template-pribehy-php .site-main {
-        padding-left: 15px;
-        padding-right: 15px;
+        padding-left: 12px;
+        padding-right: 12px;
     }
 
     /* Snížení vertikální mezery mezi boxy na mobilu */
