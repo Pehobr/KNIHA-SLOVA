@@ -40,7 +40,7 @@ do_action( 'kadence_after_content' );
     <?php // Odkaz na profil (pokud bude existovat) ?>
     <a href="<?php echo esc_url( get_edit_user_link() ); ?>" class="mobile-nav-icon"><i class="fa fa-user" aria-hidden="true"></i></a>
     <?php // Odkaz na katalog - get_permalink() je robustnější než pevná URL ?>
-	<a href="<?php echo esc_url( get_permalink( get_page_by_path( 'katalog-pribehu' ) ) ); ?>" class="mobile-nav-icon"><i class="fa fa-list-alt" aria-hidden="true"></i></a>
+	<a href="<?php echo esc_url( get_permalink( get_page_by_path( 'kniha' ) ) ); ?>" class="mobile-nav-icon"><i class="fa fa-book" aria-hidden="true"></i></a>
     <?php // Odkaz na domovskou stránku ?>
 	<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="mobile-nav-icon mobile-nav-icon-home"><i class="fa fa-home" aria-hidden="true"></i></a>
     <?php // Odkaz na archiv příběhů ?>

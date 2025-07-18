@@ -93,7 +93,6 @@ function child_theme_configurator_css() {
         wp_enqueue_style( 'kniha-slova-archive-styles', get_stylesheet_directory_uri() . '/css/archiv-pribehu.css', array('chld_thm_cfg_child'), '1.0.1' );
     } elseif ( is_page_template('page-katalog.php') ) { // <<< PŘIDÁNO PRO KATALOG
         // Načte styly pouze pro stránku katalogu
-        wp_enqueue_style( 'kniha-slova-katalog-styles', get_stylesheet_directory_uri() . '/css/katalog.css', array('chld_thm_cfg_child'), '1.0.1' );
     }
 
     // Správné načtení knihovny ikon Font Awesome
