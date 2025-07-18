@@ -1,5 +1,51 @@
 document.addEventListener('DOMContentLoaded', function () {
-    
+
+    // --- PŘIDÁNO: Funkce pro vložení levé ikony do mobilní hlavičky (OPRAVENÁ VERZE) ---
+    function addLeftMobileIcon() {
+        const leftContainer = document.querySelector('#mobile-header .site-header-main-section-left');
+
+        if (leftContainer) {
+            // Zabráníme přidání ikony vícekrát
+            if (leftContainer.querySelector('.custom-left-menu-icon')) {
+                return;
+            }
+
+            // Vytvoříme obalující div pro konzistenci se šablonou
+            const headerItemWrapper = document.createElement('div');
+            headerItemWrapper.className = 'site-header-item site-header-focus-item';
+            
+            // Vytvoříme tlačítko pro ikonu
+            const leftIconButton = document.createElement('button');
+            leftIconButton.className = 'custom-left-menu-icon menu-toggle-open'; // Použijeme podobné třídy jako pravá ikona
+            leftIconButton.setAttribute('aria-label', 'Otevřít levé menu');
+            
+            // Vložíme SVG ikonu (stejnou jako má pravé menu)
+            leftIconButton.innerHTML = `
+                <span class="menu-toggle-icon">
+                    <span class="kadence-svg-iconset">
+                        <svg aria-hidden="true" class="kadence-svg-icon kadence-menu-svg" fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <title>Přepínání levé nabídky</title>
+                            <path d="M3 13h18c0.552 0 1-0.448 1-1s-0.448-1-1-1h-18c-0.552 0-1 0.448-1 1s0.448 1 1 1zM3 7h18c0.552 0 1-0.448 1-1s-0.448-1-1-1h-18c-0.552 0-1 0.448-1 1s0.448 1 1 1zM3 19h18c0.552 0 1-0.448 1-1s-0.448-1-1-1h-18c-0.552 0-1 0.448-1 1s0.448 1 1 1z"></path>
+                        </svg>
+                    </span>
+                </span>`;
+
+            // Přidáme událost pro kliknutí
+            leftIconButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                // Zde přijde kód pro otevření levého menu
+                alert('Kliknuto na levou ikonu!');
+            });
+
+            // Vložíme tlačítko do obalu a obal do levého kontejneru
+            headerItemWrapper.appendChild(leftIconButton);
+            leftContainer.appendChild(headerItemWrapper);
+        }
+    }
+    // Zavoláme funkci pro přidání ikony
+    addLeftMobileIcon();
+    // --- KONEC PŘIDANÉ ČÁSTI ---
+
     // Logika pro proklikávací boxy na archivu
     const storyBoxes = document.querySelectorAll(
         '.post-type-archive-evangelijni_pribeh .entry.loop-entry, .page-template-template-pribehy-php .entry.loop-entry'
@@ -44,13 +90,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     tabs.forEach(t => t.classList.remove('active'));
                     contents.forEach(c => c.classList.remove('active'));
                     const targetId = tab.getAttribute(dataAttribute);
-                    
-                    // --- TOTO JE OPRAVA ---
-                    // Předpona pro ID (např. "exegesis", "spiritual") se odvodí z názvu třídy přepínače.
                     const idPrefix = switcherClass.split('-')[0];
                     const targetContent = document.getElementById(idPrefix + '-' + targetId);
-                    // --- KONEC OPRAVY ---
-
                     tab.classList.add('active');
                     if (targetContent) {
                         targetContent.classList.add('active');
@@ -64,19 +105,12 @@ document.addEventListener('DOMContentLoaded', function () {
     setupEvangelistSwitcher('evangelist-switcher', 'evangelist-translation-content', 'data-evangelist');
     setupEvangelistSwitcher('exegesis-switcher', 'exegesis-content', 'data-exegesis-target');
     setupEvangelistSwitcher('spiritual-switcher', 'spiritual-content', 'data-spiritual-target');
-
-});
-
-document.addEventListener('DOMContentLoaded', function () {
     
-    // ... (stávající kód pro proklikávací boxy a přepínání záložek) ...
-
-    // --- PŘIDÁNO: Funkce pro vytvoření a ovládání audio přehrávače ---
+    // Funkce pro vytvoření a ovládání audio přehrávače
     function setupPodcastPlayer() {
         const playerWrapper = document.querySelector('.podcast-player-container');
         if (!playerWrapper) return;
 
-        // Najdeme skrytý obsah a v něm odkaz na MP3
         const sourceContent = playerWrapper.querySelector('.podcast-source-content');
         const mp3Link = sourceContent ? sourceContent.querySelector('a[href$=".mp3"]') : null;
 
@@ -87,7 +121,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const mp3Url = mp3Link.href;
         
-        // Vytvoříme HTML strukturu přehrávače
         playerWrapper.innerHTML = `
             <div class="ai-audio-player">
                 <button class="play-pause-btn" aria-label="Přehrát podcast">
@@ -107,14 +140,12 @@ document.addEventListener('DOMContentLoaded', function () {
         const progressBarWrapper = playerWrapper.querySelector('.progress-bar-wrapper');
         const timeDisplay = playerWrapper.querySelector('.time-display');
 
-        // Formátování času z sekund na MM:SS
         function formatTime(seconds) {
             const minutes = Math.floor(seconds / 60);
             const secs = Math.floor(seconds % 60);
             return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
-        // Přepínání play/pause
         playPauseBtn.addEventListener('click', () => {
             if (audio.paused) {
                 audio.play();
@@ -127,14 +158,12 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
 
-        // Aktualizace progress baru a času
         audio.addEventListener('timeupdate', () => {
             const progressPercent = (audio.currentTime / audio.duration) * 100;
             progressBar.style.width = `${progressPercent}%`;
             timeDisplay.textContent = formatTime(audio.currentTime);
         });
         
-        // Posouvání v nahrávce kliknutím na progress bar
         progressBarWrapper.addEventListener('click', (e) => {
             const wrapperWidth = progressBarWrapper.clientWidth;
             const clickX = e.offsetX;
@@ -145,7 +174,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Aktivace všech funkcí
+    // Aktivace audio přehrávače
     setupPodcastPlayer();
-    
 });
