@@ -147,3 +147,34 @@ body.left-menu-is-open {
     color: #ffffff !important;
     font-weight: 700 !important;
 }
+
+/* ==========================================================================
+   OPRAVA NEFUNKČNÍCH ODKAZŮ V LEVÉM MENU (PROBLÉM S VRSTVENÍM)
+   ========================================================================== */
+
+/* Zajistíme, aby vnitřní panel menu správně pracoval s vrstvami. */
+#left-mobile-drawer .drawer-inner-left {
+    position: relative; /* Nutné pro fungování z-indexu u vnořených prvků */
+    z-index: 10;        /* Nastavíme vyšší vrstvu než má pozadí */
+}
+
+/* Samotné navigační prvky nepotřebují žádné speciální vrstvení,
+   pokud je jejich rodič správně nastaven. */
+#left-mobile-drawer .left-mobile-navigation {
+    position: relative;
+    z-index: 12;
+}
+
+/* Překryvná vrstva musí být naopak ve vrstvě nejnižší. */
+#left-mobile-drawer .drawer-overlay-left {
+    z-index: 1; /* Nejnižší vrstva */
+}
+
+/* ==========================================================================
+   OPRAVA VÝŠKY MENU (ROZTAŽENÍ NA CELOU OBRAZOVKU)
+   ========================================================================== */
+
+#left-mobile-drawer .drawer-inner-left,
+#mobile-drawer .drawer-inner {
+    height: 100vh !important; /* Nastaví výšku na 100% výšky obrazovky */
+}

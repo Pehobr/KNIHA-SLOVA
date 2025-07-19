@@ -1,88 +1,82 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    // --- PŘIDÁNO: Funkce pro vložení levé ikony do mobilní hlavičky (OPRAVENÁ VERZE) ---
-    function addLeftMobileIcon() {
-        const leftContainer = document.querySelector('#mobile-header .site-header-main-section-left');
+    /**
+     * ========================================================================
+     * I. LOGIKA PRO LEVÉ MOBILNÍ MENU (OPRAVENO A SJEDNOCENO)
+     * Zajišťuje, že se ikona vždy vytvoří a menu je plně funkční.
+     * ========================================================================
+     */
+    function setupLeftMobileMenu() {
+        const headerLeftSection = document.querySelector('#mobile-header .site-header-main-section-left');
+        const leftDrawer = document.getElementById('left-mobile-drawer');
 
-        if (leftContainer) {
-            // Zabráníme přidání ikony vícekrát
-            if (leftContainer.querySelector('.custom-left-menu-icon')) {
-                return;
-            }
+        // Pokud na stránce neexistuje kontejner pro levé menu, nic neděláme.
+        if (!leftDrawer) {
+            return;
+        }
 
-            // Vytvoříme obalující div pro konzistenci se šablonou
-            const headerItemWrapper = document.createElement('div');
-            headerItemWrapper.className = 'site-header-item site-header-focus-item';
-            
-            // Vytvoříme tlačítko pro ikonu
-            const leftIconButton = document.createElement('button');
-            leftIconButton.className = 'custom-left-menu-icon menu-toggle-open'; // Použijeme podobné třídy jako pravá ikona
-            leftIconButton.setAttribute('aria-label', 'Otevřít levé menu');
-            
-            // Vložíme SVG ikonu (stejnou jako má pravé menu)
-            leftIconButton.innerHTML = `
-                <span class="menu-toggle-icon">
+        // --- Část 1: Vytvoření a vložení ikony do hlavičky ---
+        // Tuto část spouštíme, pouze pokud existuje levý kontejner v hlavičce.
+        if (headerLeftSection) {
+            // Zkontrolujeme, jestli už ikona nebyla vytvořena, abychom ji neduplikovali.
+            if (!headerLeftSection.querySelector('.custom-left-menu-icon')) {
+                const leftMenuButton = document.createElement('button');
+                leftMenuButton.className = 'custom-left-menu-icon';
+                leftMenuButton.setAttribute('aria-label', 'Otevřít levé menu');
+                leftMenuButton.setAttribute('aria-expanded', 'false');
+                leftMenuButton.innerHTML = `
                     <span class="kadence-svg-iconset">
                         <svg aria-hidden="true" class="kadence-svg-icon kadence-menu-svg" fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <title>Přepínání levé nabídky</title>
                             <path d="M3 13h18c0.552 0 1-0.448 1-1s-0.448-1-1-1h-18c-0.552 0-1 0.448-1 1s0.448 1 1 1zM3 7h18c0.552 0 1-0.448 1-1s-0.448-1-1-1h-18c-0.552 0-1 0.448-1 1s0.448 1 1 1zM3 19h18c0.552 0 1-0.448 1-1s-0.448-1-1-1h-18c-0.552 0-1 0.448-1 1s0.448 1 1 1z"></path>
                         </svg>
                     </span>
-                </span>`;
-
-            // Vložíme tlačítko do obalu a obal do levého kontejneru
-            headerItemWrapper.appendChild(leftIconButton);
-            leftContainer.appendChild(headerItemWrapper);
+                `;
+                headerLeftSection.appendChild(leftMenuButton);
+            }
         }
-    }
-    // Zavoláme funkci pro přidání ikony
-    addLeftMobileIcon();
 
-    // --- NOVĚ PŘIDÁNO: Logika pro ovládání levého menu ---
-    // (přesunuto z custom-left-menu.js pro zjednodušení)
-    const leftMenuToggleButton = document.querySelector('.custom-left-menu-icon');
-    const leftDrawer = document.getElementById('left-mobile-drawer');
+        // --- Část 2: Ovládání otevírání a zavírání menu ---
+        const openButton = document.querySelector('.custom-left-menu-icon');
+        const closeButton = leftDrawer.querySelector('.close-drawer');
+        const overlay = leftDrawer.querySelector('.drawer-overlay-left');
+        const body = document.body;
 
-    // Spustíme logiku pouze pokud oba prvky existují
-    if (leftMenuToggleButton && leftDrawer) {
-        const leftCloseButton = leftDrawer.querySelector('.close-drawer');
-        const leftOverlay = leftDrawer.querySelector('.drawer-overlay-left');
-
-        const openLeftMenu = () => {
-            document.body.classList.add('left-menu-is-open');
-            leftMenuToggleButton.setAttribute('aria-expanded', 'true');
+        const openMenu = () => {
+            body.classList.add('left-menu-is-open');
             leftDrawer.setAttribute('aria-hidden', 'false');
+            if (openButton) openButton.setAttribute('aria-expanded', 'true');
         };
 
-        const closeLeftMenu = () => {
-            document.body.classList.remove('left-menu-is-open');
-            leftMenuToggleButton.setAttribute('aria-expanded', 'false');
+        const closeMenu = () => {
+            body.classList.remove('left-menu-is-open');
             leftDrawer.setAttribute('aria-hidden', 'true');
+            if (openButton) openButton.setAttribute('aria-expanded', 'false');
         };
 
-        leftMenuToggleButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            if (document.body.classList.contains('left-menu-is-open')) {
-                closeLeftMenu();
-            } else {
-                openLeftMenu();
-            }
-        });
-
-        if (leftCloseButton) {
-            leftCloseButton.addEventListener('click', (e) => { e.preventDefault(); closeLeftMenu(); });
+        if (openButton) {
+            openButton.addEventListener('click', openMenu);
         }
-        if (leftOverlay) {
-            leftOverlay.addEventListener('click', (e) => { e.preventDefault(); closeLeftMenu(); });
+        if (closeButton) {
+            closeButton.addEventListener('click', closeMenu);
         }
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && document.body.classList.contains('left-menu-is-open')) {
-                closeLeftMenu();
+        if (overlay) {
+            overlay.addEventListener('click', closeMenu);
+        }
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && body.classList.contains('left-menu-is-open')) {
+                closeMenu();
             }
         });
     }
-    // --- KONEC PŘIDANÉ ČÁSTI ---
+
+
+    /**
+     * ========================================================================
+     * II. PŮVODNÍ FUNKCIONALITA STRÁNKY (ZACHOVÁNO)
+     * Klikací boxy, přepínání záložek, audio přehrávač.
+     * ========================================================================
+     */
 
     // Logika pro proklikávací boxy na archivu
     const storyBoxes = document.querySelectorAll(
@@ -90,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function () {
     );
     if (storyBoxes.length > 0) {
         storyBoxes.forEach(box => {
-            box.style.cursor = 'pointer'; 
+            box.style.cursor = 'pointer';
             box.addEventListener('click', function (e) {
                 const link = box.querySelector('a');
                 if (link && e.target.tagName !== 'A') {
@@ -143,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
     setupEvangelistSwitcher('evangelist-switcher', 'evangelist-translation-content', 'data-evangelist');
     setupEvangelistSwitcher('exegesis-switcher', 'exegesis-content', 'data-exegesis-target');
     setupEvangelistSwitcher('spiritual-switcher', 'spiritual-content', 'data-spiritual-target');
-    
+
     // Funkce pro vytvoření a ovládání audio přehrávače
     function setupPodcastPlayer() {
         const playerWrapper = document.querySelector('.podcast-player-container');
@@ -158,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const mp3Url = mp3Link.href;
-        
+
         playerWrapper.innerHTML = `
             <div class="ai-audio-player">
                 <button class="play-pause-btn" aria-label="Přehrát podcast">
@@ -201,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
             progressBar.style.width = `${progressPercent}%`;
             timeDisplay.textContent = formatTime(audio.currentTime);
         });
-        
+
         progressBarWrapper.addEventListener('click', (e) => {
             const wrapperWidth = progressBarWrapper.clientWidth;
             const clickX = e.offsetX;
@@ -212,6 +206,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Aktivace audio přehrávače
+
+    /**
+     * ========================================================================
+     * III. SPOUŠTĚNÍ FUNKCÍ PO NAČTENÍ STRÁNKY
+     * ========================================================================
+     */
+    setupLeftMobileMenu();
     setupPodcastPlayer();
+
 });

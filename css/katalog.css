@@ -2,98 +2,126 @@
    STYLY PRO STRÁNKU KATALOGU
    ========================================================================== */
 
-/* Kontejnery pro přepínání záložek */
+/* --- Hlavní layout a boční odsazení --- */
+/* Cílíme na hlavní obsahový kontejner a nastavujeme mu boční odsazení 12px.
+   
+   POZNÁMKA: Selektor `.page-katalog` je PŘEDPOKLAD. Pokud by odsazení nefungovalo,
+   je potřeba v HTML kódu stránky najít správnou třídu pro <body> tag
+   (např. `page-id-123`) a nahradit ji v tomto pravidle. */
+.page-katalog .site-main {
+    padding-left: 7px;
+    padding-right: 7px;
+}
+/* --- Kontejnery pro přepínání záložek --- */
+/* Toto pravidlo styluje oba kontejnery pro záložky (hlavní i pro evangelisty).
+   Sjednocuje jejich vzhled s ostatními částmi webu (např. detailem příběhu). */
 .view-switcher, .evangelist-switcher {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 0.7em;
+    display: flex; /* Umožní zarovnání záložek vedle sebe. */
+    justify-content: center; /* Vycentruje skupinu záložek horizontálně. */
+    margin-bottom: 0.7em; /* Vytvoří malou mezeru pod lištou záložek. */
     border-bottom: 2px solid #514332; /* Tmavá linka pod záložkami, jako na single-pribehu.css */
-    flex-wrap: wrap; /* Umožní zalamování na menších obrazovkách */
+    flex-wrap: wrap; /* Umožní zalamování záložek na další řádek na menších obrazovkách. */
 }
 
-/* Tlačítka záložek (Podle názvu, Podle citací, Evangelisté) */
+/* --- Vzhled jednotlivé záložky (tlačítka) --- */
+/* Definuje vzhled každého klikatelného "tlačítka" v liště záložek. */
 .nav-tab {
-    background-color: transparent;
-    border: none;
-    padding: 0.8em 1.5em;
-    cursor: pointer;
+    background-color: transparent; /* Průhledné pozadí. */
+    border: none; /* Žádné ohraničení. */
+    padding: 0.8em 1.5em; /* Vnitřní odsazení pro dostatek prostoru kolem textu. */
+    cursor: pointer; /* Změní kurzor na "ručičku" při najetí. */
     font-size: 16px;
-    font-weight: 700; /* Tučné písmo */
-    color: #b7a99a; /* Výchozí barva písma, jako na single-pribehu.css */
-    transition: all 0.3s ease;
-    border-bottom: 3px solid transparent; /* Skrytý spodní okraj */
-    margin-bottom: -2px; /* Překryje spodní okraj kontejneru */
+    font-weight: 700; /* Tučné písmo pro dobrou čitelnost. */
+    color: #b7a99a; /* Výchozí, méně výrazná barva písma. */
+    transition: all 0.3s ease; /* Plynulá animace pro všechny změny (barva, ohraničení). */
+    border-bottom: 3px solid transparent; /* "Neviditelný" spodní okraj, který se zbarví při aktivaci. */
+    margin-bottom: -2px; /* Trik, který posune záložku mírně dolů, aby její spodní okraj překryl okraj kontejneru. */
 }
 
-/* Aktivní stav a najetí myší na záložku */
+/* --- Aktivní stav a najetí myší na záložku --- */
+/* Toto pravidlo se aplikuje, když je záložka aktivní (má třídu .active) nebo když na ni uživatel najede myší. */
 .nav-tab.active,
 .nav-tab:hover {
-    color: #f5f2eb; /* Barva aktivní/hover záložky, jako na single-pribehu.css */
-    border-bottom: 3px solid #f5f2eb; /* Zvýraznění aktivní/hover záložky */
+    color: #f5f2eb; /* Změní barvu textu na výraznější světlou. */
+    border-bottom-color: #f5f2eb; /* Zviditelní spodní okraj tím, že mu dá stejnou světlou barvu. */
 }
 
-/* Skrytí obsahu, který není aktivní */
+/* --- Správa viditelnosti obsahu --- */
+/* Ve výchozím stavu jsou všechny bloky s obsahem skryté. */
 .tab-content, .evangelist-citation-content {
     display: none;
 }
 
-/* Zobrazení aktivního obsahu */
+/* Zobrazí se pouze ten blok, který má třídu .active (přidává se JavaScriptem). */
 .tab-content.active, .evangelist-citation-content.active {
     display: block;
 }
 
-/* Mřížka pro tlačítka s příběhy */
+/* --- Mřížka pro tlačítka s příběhy --- */
+/* Definuje layout pro zobrazení všech tlačítek s názvy příběhů nebo citacemi. */
 .katalog-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Mírně širší tlačítka */
-    gap: 1.5rem; /* Mezery mezi tlačítky, jako na archiv-pribehu.css */
-    margin-top: 2rem;
+    display: grid; /* Používá moderní CSS Grid layout. */
+    /* Klíčové responzivní pravidlo: Vytvoří tolik sloupců, kolik se jich vejde.
+       Každý sloupec bude mít minimální šířku 220px a maximálně se roztáhne,
+       aby vyplnil dostupné místo (1fr). */
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.7rem; /* Definuje mezeru mezi jednotlivými tlačítky v mřížce. */
+    margin-top: 2rem; /* Vytvoří prostor nad mřížkou. */
 }
 
-/* Vlastní tlačítka s názvy/citacemi */
+/* --- Vzhled jednotlivého tlačítka v mřížce --- */
 .katalog-button {
-    background: #514332; /* Tmavší hnědá, jako na archiv-pribehu.css */
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 0;
-    padding: 12px;
-    text-decoration: none;
-    text-align: center;
-    /* Písmo nastavené jako h3 */
-    font-family: var(--global-heading-font-family);
+    background: #514332; /* Tmavě hnědé pozadí. */
+    border-radius: 5px; /* Lehce zaoblené rohy. */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Jemný stín pro 3D efekt. */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Plynulá animace pro hover efekt. */
+    display: flex; /* Používá flexbox pro... */
+    align-items: center; /* ...vertikální vycentrování obsahu. */
+    justify-content: center; /* ...horizontální vycentrování obsahu. */
+    min-height: 0; /* Resetuje případnou minimální výšku. */
+    padding: 12px; /* Vnitřní odsazení. */
+    text-decoration: none; /* Odstraní podtržení odkazu. */
+    text-align: center; /* Zarovná text na střed (dobré jako záloha pro flexbox). */
+    /* Nastavení písma, aby vypadalo jako nadpis. */
+    font-family: var(--global-heading-font-family); /* Použije globální font pro nadpisy z nastavení šablony. */
     font-style: normal;
     font-weight: 700;
     font-size: 19px;
     line-height: 1.3;
-    color: #f5f2eb; /* Světlé písmo, jako na archiv-pribehu.css */
+    color: #f5f2eb; /* Světlá barva písma pro kontrast. */
 }
 
+/* --- Hover efekt pro tlačítko --- */
+/* Tento styl se aplikuje, když uživatel najede myší na tlačítko. */
 .katalog-button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-    color: #ffffff;
+    transform: translateY(-5px); /* Posune tlačítko o 5px nahoru. */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.3); /* Zvětší stín, což umocní dojem "nadzvednutí". */
+    color: #ffffff; /* Zesvětlí barvu textu na čistě bílou. */
 }
 
-/* Responzivita pro přepínač evangelistů */
+/* ==========================================================================
+   RESPONZIVNÍ ÚPRAVY
+   ========================================================================== */
+
+/* --- Přepínač evangelistů --- */
+/* Ve výchozím stavu (na desktopu) jsou zkratky jmen skryté. */
 .evangelist-switcher .shortname {
-    display: none; /* Skryje zkratky na velkých obrazovkách */
+    display: none;
 }
 
+/* --- Mobilní zobrazení (šířka 600px a méně) --- */
 @media all and (max-width: 600px) {
+    /* Skryjeme plná jména evangelistů, aby se záložky vešly na šířku obrazovky. */
     .evangelist-switcher .fullname {
-        display: none; /* Skryje plná jména na mobilech */
+        display: none;
     }
+    /* Místo plných jmen zobrazíme jejich zkratky. */
     .evangelist-switcher .shortname {
-        display: inline; /* Zobrazí zkratky na mobilech */
+        display: inline;
     }
+    /* Zmenšíme vnitřní odsazení záložek, aby se jich na řádek vešlo více. */
     .nav-tab {
-        padding: 0.8em 1em; /* Menší padding na mobilech */
+        padding: 0.8em 1em;
     }
-    .katalog-grid {
-        grid-template-columns: 1fr 1fr; /* Dva sloupce na menších mobilech */
-    }
+   
 }
