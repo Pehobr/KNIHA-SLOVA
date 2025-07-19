@@ -106,7 +106,7 @@ body.left-menu-is-open {
 #left-mobile-drawer .left-mobile-navigation li a,
 #mobile-drawer .mobile-navigation li a {
     font-family: 'Playfair Display', serif !important; /* Nastavuje specifický font. */
-    font-size: 24px !important;                       /* Větší velikost písma pro dobrou čitelnost. */
+    font-size: 17px !important;                       /* Větší velikost písma pro dobrou čitelnost. */
     font-weight: 400 !important;                      /* Normální tloušťka písma. */
     color: #f5f2eb !important;                        /* Světlá barva textu pro kontrast s tmavým pozadím. */
     text-transform: none !important;                  /* Zruší případnou transformaci na velká písmena. */
