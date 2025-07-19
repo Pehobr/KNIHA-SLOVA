@@ -2,79 +2,86 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /**
      * ========================================================================
-     * I. LOGIKA PRO LEVÉ MOBILNÍ MENU (OPRAVENO A SJEDNOCENO)
-     * Zajišťuje, že se ikona vždy vytvoří a menu je plně funkční.
+     * I. VYTVOŘENÍ VLASTNÍ LEVÉ IKONY V HLAVIČCE
+     * Tato část byla omylem odstraněna a nyní je vrácena zpět.
+     * Zajišťuje, že se levá ikona vždy zobrazí.
      * ========================================================================
      */
-    function setupLeftMobileMenu() {
+    function createLeftMenuIcon() {
         const headerLeftSection = document.querySelector('#mobile-header .site-header-main-section-left');
-        const leftDrawer = document.getElementById('left-mobile-drawer');
 
-        // Pokud na stránce neexistuje kontejner pro levé menu, nic neděláme.
-        if (!leftDrawer) {
+        // Pokud na stránce neexistuje levý kontejner v hlavičce, nic neděláme.
+        if (!headerLeftSection) {
             return;
         }
 
-        // --- Část 1: Vytvoření a vložení ikony do hlavičky ---
-        // Tuto část spouštíme, pouze pokud existuje levý kontejner v hlavičce.
-        if (headerLeftSection) {
-            // Zkontrolujeme, jestli už ikona nebyla vytvořena, abychom ji neduplikovali.
-            if (!headerLeftSection.querySelector('.custom-left-menu-icon')) {
-                const leftMenuButton = document.createElement('button');
-                leftMenuButton.className = 'custom-left-menu-icon';
-                leftMenuButton.setAttribute('aria-label', 'Otevřít levé menu');
-                leftMenuButton.setAttribute('aria-expanded', 'false');
-                leftMenuButton.innerHTML = `
-                    <span class="kadence-svg-iconset">
-                        <svg aria-hidden="true" class="kadence-svg-icon kadence-menu-svg" fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <title>Přepínání levé nabídky</title>
-                            <path d="M3 13h18c0.552 0 1-0.448 1-1s-0.448-1-1-1h-18c-0.552 0-1 0.448-1 1s0.448 1 1 1zM3 7h18c0.552 0 1-0.448 1-1s-0.448-1-1-1h-18c-0.552 0-1 0.448-1 1s0.448 1 1 1zM3 19h18c0.552 0 1-0.448 1-1s-0.448-1-1-1h-18c-0.552 0-1 0.448-1 1s0.448 1 1 1z"></path>
-                        </svg>
-                    </span>
-                `;
-                headerLeftSection.appendChild(leftMenuButton);
-            }
+        // Zkontrolujeme, jestli už ikona nebyla vytvořena, abychom ji neduplikovali.
+        if (!headerLeftSection.querySelector('.custom-left-menu-icon')) {
+            const leftMenuButton = document.createElement('button');
+            leftMenuButton.className = 'custom-left-menu-icon';
+            leftMenuButton.setAttribute('aria-label', 'Otevřít levé menu');
+            leftMenuButton.setAttribute('aria-expanded', 'false');
+            leftMenuButton.innerHTML = `
+                <span class="kadence-svg-iconset">
+                    <svg aria-hidden="true" class="kadence-svg-icon kadence-menu-svg" fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <title>Přepínání levé nabídky</title>
+                        <path d="M3 13h18c0.552 0 1-0.448 1-1s-0.448-1-1-1h-18c-0.552 0-1 0.448-1 1s0.448 1 1 1zM3 7h18c0.552 0 1-0.448 1-1s-0.448-1-1-1h-18c-0.552 0-1 0.448-1 1s0.448 1 1 1zM3 19h18c0.552 0 1-0.448 1-1s-0.448-1-1-1h-18c-0.552 0-1 0.448-1 1s0.448 1 1 1z"></path>
+                    </svg>
+                </span>
+            `;
+            // Vložíme ikonu do levé části hlavičky
+            headerLeftSection.appendChild(leftMenuButton);
         }
-
-        // --- Část 2: Ovládání otevírání a zavírání menu ---
-        const openButton = document.querySelector('.custom-left-menu-icon');
-        const closeButton = leftDrawer.querySelector('.close-drawer');
-        const overlay = leftDrawer.querySelector('.drawer-overlay-left');
-        const body = document.body;
-
-        const openMenu = () => {
-            body.classList.add('left-menu-is-open');
-            leftDrawer.setAttribute('aria-hidden', 'false');
-            if (openButton) openButton.setAttribute('aria-expanded', 'true');
-        };
-
-        const closeMenu = () => {
-            body.classList.remove('left-menu-is-open');
-            leftDrawer.setAttribute('aria-hidden', 'true');
-            if (openButton) openButton.setAttribute('aria-expanded', 'false');
-        };
-
-        if (openButton) {
-            openButton.addEventListener('click', openMenu);
-        }
-        if (closeButton) {
-            closeButton.addEventListener('click', closeMenu);
-        }
-        if (overlay) {
-            overlay.addEventListener('click', closeMenu);
-        }
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && body.classList.contains('left-menu-is-open')) {
-                closeMenu();
-            }
-        });
     }
 
 
     /**
      * ========================================================================
-     * II. PŮVODNÍ FUNKCIONALITA STRÁNKY (ZACHOVÁNO)
-     * Klikací boxy, přepínání záložek, audio přehrávač.
+     * II. FUNKCE PRO OVLÁDÁNÍ VYSOUVACÍCH MENU
+     * Univerzální funkce pro levé i pravé menu.
+     * ========================================================================
+     */
+    function setupDrawerMenu(options) {
+        // Čekáme, až se DOM plně načte, abychom měli jistotu, že ikony existují
+        // Zvláště levá, která je vytvářena dynamicky
+        const openButton = document.querySelector(options.openSelector);
+        const drawer = document.getElementById(options.drawerId);
+
+        if (!openButton || !drawer) {
+            return;
+        }
+
+        const closeButton = drawer.querySelector(options.closeSelector);
+        const overlay = drawer.querySelector(options.overlaySelector);
+        const body = document.body;
+
+        const openMenu = (e) => {
+            if (options.preventDefault) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            body.classList.add(options.bodyClass);
+            openButton.setAttribute('aria-expanded', 'true');
+        };
+
+        const closeMenu = () => {
+            body.classList.remove(options.bodyClass);
+            openButton.setAttribute('aria-expanded', 'false');
+        };
+
+        openButton.addEventListener('click', openMenu);
+        closeButton.addEventListener('click', closeMenu);
+        overlay.addEventListener('click', closeMenu);
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && body.classList.contains(options.bodyClass)) {
+                closeMenu();
+            }
+        });
+    }
+
+    /**
+     * ========================================================================
+     * III. PŮVODNÍ FUNKCIONALITA STRÁNKY (ZACHOVÁNO)
      * ========================================================================
      */
 
@@ -152,18 +159,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const mp3Url = mp3Link.href;
-
-        playerWrapper.innerHTML = `
-            <div class="ai-audio-player">
-                <button class="play-pause-btn" aria-label="Přehrát podcast">
-                    <i class="fa fa-play"></i>
-                </button>
-                <div class="progress-bar-wrapper">
-                    <div class="progress-bar"></div>
-                </div>
-                <div class="time-display">0:00</div>
-            </div>
-        `;
+        playerWrapper.innerHTML = `<div class="ai-audio-player"><button class="play-pause-btn" aria-label="Přehrát podcast"><i class="fa fa-play"></i></button><div class="progress-bar-wrapper"><div class="progress-bar"></div></div><div class="time-display">0:00</div></div>`;
 
         const audio = new Audio(mp3Url);
         const playPauseBtn = playerWrapper.querySelector('.play-pause-btn');
@@ -206,13 +202,34 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-
     /**
      * ========================================================================
-     * III. SPOUŠTĚNÍ FUNKCÍ PO NAČTENÍ STRÁNKY
+     * IV. SPOUŠTĚNÍ VŠECH FUNKCÍ
      * ========================================================================
      */
-    setupLeftMobileMenu();
+
+    // 1. Vytvoříme ikonu pro levé menu
+    createLeftMenuIcon();
+    
+    // 2. Aktivujeme ovládání pro obě menu
+    setupDrawerMenu({
+        openSelector: '.custom-left-menu-icon',
+        drawerId: 'left-mobile-drawer',
+        closeSelector: '.drawer-toggle-left',
+        overlaySelector: '.drawer-overlay-left',
+        bodyClass: 'left-menu-is-open',
+        preventDefault: false
+    });
+    setupDrawerMenu({
+        openSelector: '#mobile-toggle',
+        drawerId: 'right-mobile-drawer',
+        closeSelector: '.drawer-toggle-right',
+        overlaySelector: '.drawer-overlay-right',
+        bodyClass: 'right-menu-is-open',
+        preventDefault: true
+    });
+
+    // 3. Aktivujeme audio přehrávač
     setupPodcastPlayer();
 
 });

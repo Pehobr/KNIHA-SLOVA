@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function kniha_slova_register_nav_menus() {
 	register_nav_menus( array(
-		'leve_mobilni_menu' => __( 'Levé mobilní menu', 'kadence-child' ),
+		'leve_mobilni_menu'  => __( 'Levé mobilní menu', 'kadence-child' ),
+		'prave_mobilni_menu' => __( 'Pravé mobilní menu', 'kadence-child' ), // PŘIDÁNO: Registrace pravého menu
 	) );
 }
 add_action( 'init', 'kniha_slova_register_nav_menus' );
-
